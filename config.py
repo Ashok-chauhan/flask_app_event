@@ -10,6 +10,8 @@ class Config:
     #or 'mysql+pymysql://root:@localhost/events'
     #or 'sqlite:///'+ os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    FLASK_ENV ='production'
+    FLASK_DEBUG = False
     # UPLOAD_DIRECTORY = 'uploads/'
     # MAX_CONTENT_LENGTH = 16*1024*1024 #16 MB
     # ALLOWED_EXTENTIONS = ['.jpg', 'jpeg', '.png', '.gif', '.pdf']

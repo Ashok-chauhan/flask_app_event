@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="d-flex justify-content-center">
-  <form method="POST" action="event" enctype="multipart/form-data">
+  <form method="POST" action="events" enctype="multipart/form-data">
     <h1>Programme</h1>
     {{ form.hidden_tag() }}
     <div class="form-group mb-3">{{ form.date(class_="form-control") }}</div>
