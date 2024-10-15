@@ -7,6 +7,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABSE_URI')\
     or 'mysql+pymysql://flask:FlaskApp_9@localhost/events'
     #or 'mysql+pymysql://root:@localhost/events'
+    #or 'mysql+pymysql://root:@localhost/events'
     #or 'sqlite:///'+ os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # UPLOAD_DIRECTORY = 'uploads/'

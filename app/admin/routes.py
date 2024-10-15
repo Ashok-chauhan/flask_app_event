@@ -3,8 +3,10 @@ from werkzeug.utils import secure_filename
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
 from app.admin.eventform import EventForm
+from app.admin.commentform import CommentForm
 from app.admin import bp
 from app.models.event import Events
+from app.models.comments import Comments
 from app.extensions import db
 
 
@@ -27,7 +29,7 @@ def index():
 
 
 
-@bp.route('/event', methods=['GET', 'POST'])
+@bp.route('/events', methods=['GET', 'POST'])
 def create_event():
     form = EventForm()
     
@@ -43,5 +45,21 @@ def create_event():
         return redirect(url_for('admin.index'))
 
     return render_template('admin/create_event.html', form=form)
+
+
+
+
+@bp.route('/event/<int:id>', methods=['GET', 'POST'])
+def event(id):
+     
+     event = Events.query.get_or_404(id)
+     form = CommentForm()
+     if form.validate_on_submit():
+          comment = Comments(content=form.content.data, events=event)
+          db.session.add(comment)
+          db.session.commit()
+          return redirect(url_for('admin.event', id=event.id))
+          
+     return render_template('admin/event.html', event=event, form=form)
 
 

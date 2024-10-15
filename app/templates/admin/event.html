@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="content">
+  <div class="post">
+    <div class="row">
+      <div><h3>{{ event.title }}</h3></div>
+
+      <div><strong>{{ event.date }}</strong></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div>Speaker: {{ event.speaker }}</div>
+        <div>Strart time: {{ event.speaker_start }}</div>
+        <div>End time: {{ event.speaker_end }}</div>
+        <div>File: {{ event.speaker_file }}</div>
+      </div>
+
+      <div class="col-md-3">
+        <div>Keynote: {{ event.keynote }}</div>
+        <div>Strart time: {{ event.keynote_start }}</div>
+        <div>End time: {{ event.keynote_end }}</div>
+        <div>File: {{ event.keynote_file }}</div>
+      </div>
+
+      <div class="col-md-3">
+        <div>Discussion</div>
+        <div>Strart time: {{ event.comments_start }}</div>
+        <div>End time: {{ event.comments_end }}</div>
+        <div>File: {{ event.comments_file }}</div>
+      </div>
+      <div class="col-md-3">
+        <div>Break: {{ event.breaks }}</div>
+        <div>Strart time: {{ event.breaks_start }}</div>
+        <div>End time: {{ event.breaks_end }}</div>
+      </div>
+    </div>
+
+    <hr />
+    <h3>Discussion</h3>
+
+    <form method="POST" action=""> 
+      <p>
+       
+
+        {{ form.hidden_tag() }}
+    <div class="form-group mb-3">{{ form.content(class_="form-control") }}</div>
+      </p>
+<input type="hidden" name="id" value="{{ event.id }}">
+      <p>
+        <!-- <button type="submit">Add comment</button> -->
+        <div class="form-group">{{ form.submit(class_="btn btn-primary") }}</div>
+      </p>
+    </form>
+
+    {% for comment in event.comment %}
+    <div class="row border-bottom mb-2">
+      <div>#{{ comment.id }} {{ comment.content }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
