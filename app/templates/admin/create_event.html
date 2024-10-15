@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block content %}
+<div class="d-flex justify-content-center">
+  <form method="POST" action="event" enctype="multipart/form-data">
+    <h1>Programme</h1>
+    {{ form.hidden_tag() }}
+    <div class="form-group mb-3">{{ form.date(class_="form-control") }}</div>
+    <div class="form-group mb-3">{{ form.title(class_="form-control") }}</div>
+    <div class="form-group mb-3">{{ form.speaker(class_="form-control") }}</div>
+    <div class="form-group mb-3">
+      <label for="speaker_start">Speaker start time</label>
+      {{ form.speaker_start(class_="form-control") }}
+    </div>
+    <div class="form-group mb-3">
+      <label for="speaker_end">Speaker end time</label>
+      {{ form.speaker_end(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">
+      {{ form.speaker_file(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">{{ form.keynote(class_="form-control") }}</div>
+    <div class="form-group mb-3">
+      <label for="keynote_start">Keynote start time</label>
+      {{ form.keynote_start(class_="form-control") }}
+    </div>
+    <div class="form-group mb-3">
+      <label for="keynote_end">Keynote end time</label>
+      {{ form.keynote_end(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">
+      {{ form.keynote_file(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">
+      {{ form.comments(class_="form-control") }}
+    </div>
+    <div class="form-group mb-3">
+      <label for="comments_start">Disscussion start time</label>
+      {{ form.comments_start(class_="form-control") }}
+    </div>
+    <div class="form-group mb-3">
+      <label for="comments_end">Disscussion end time</label>
+      {{ form.comments_end(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">
+      {{ form.comments_file(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">{{ form.breaks(class_="form-control") }}</div>
+    <div class="form-group mb-3">
+      <label for="breaks_start">Break start time</label>
+      {{ form.breaks_start(class_="form-control") }}
+    </div>
+    <div class="form-group mb-3">
+      <label for="breaks_end">Break end time</label>
+      {{ form.breaks_end(class_="form-control") }}
+    </div>
+
+    <div class="form-group">{{ form.submit(class_="btn btn-primary") }}</div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Event Index...</h1>
+<div class="content">
+  {% for event in events %}
+
+  <div class="post">
+    <p class="title">
+      <b> #{{ event.id }} <a href="#"> {{ event.title }} </a> </b>
+    </p>
+
+    <hr />
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
