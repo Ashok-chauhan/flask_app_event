@@ -11,6 +11,7 @@ class Users(UserMixin, db.Model):
     f_name = db.Column(db.String(150))
     l_name = db.Column(db.String(150))
     phone = db.Column(db.String(150), unique=True , nullable=False)
+    role = db.Column(db.String(50), nullable=False, default='user')
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
 

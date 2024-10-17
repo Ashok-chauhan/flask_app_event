@@ -39,20 +39,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
        
-        user = Users.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(phone=form.phone.data).first()
         
         if user:
            
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
-                return redirect(url_for('main.index'))
+                # return redirect(url_for('main.index'))
+                return redirect(url_for('admin.index'))
             else:
                 flash('Please check your login credential and try again')
                 return redirect(url_for('auth.login'))
-        # if not user or not check_password_hash(user.password, form.password.data):
-        #     flash('Please checkc your login credential and try again.')
-        #     return redirect(url_for('auth.registration'))
-        # else:
-        #     return redirect(url_for('post.index'))
-    
+           
     return render_template('auth/login.html', form=form)

@@ -8,7 +8,7 @@ from app.admin import bp
 from app.models.event import Events
 from app.models.comments import Comments
 from app.extensions import db
-
+from app.auth import role_required
 
 
 def upload_file(file):
@@ -30,6 +30,7 @@ def index():
 
 
 @bp.route('/events', methods=['GET', 'POST'])
+@role_required('admin')
 def create_event():
     form = EventForm()
     
@@ -50,6 +51,7 @@ def create_event():
 
 
 @bp.route('/event/<int:id>', methods=['GET', 'POST'])
+@role_required('admin')
 def event(id):
      
      event = Events.query.get_or_404(id)

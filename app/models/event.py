@@ -19,7 +19,7 @@ class Events(db.Model):
     breaks = db.Column(db.String(150))
     breaks_start = db.Column(db.String(100))
     breaks_end = db.Column(db.String(100))
-    comment = db.relationship('Comments', backref='events')
+    comment = db.relationship('Comments', cascade="all,delete", backref='events')
 
 
     def __reper__(self):
