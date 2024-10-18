@@ -4,9 +4,13 @@ from werkzeug.utils import secure_filename
 import os
 from app.admin.eventform import EventForm
 from app.admin.commentform import CommentForm
+from app.admin.menuform import MenuForm
+from app.admin.guestform import GuestForm
 from app.admin import bp
 from app.models.event import Events
 from app.models.comments import Comments
+from app.models.menu import Menu, Guest
+
 from app.extensions import db
 from app.auth import role_required
 
@@ -65,3 +69,36 @@ def event(id):
      return render_template('admin/event.html', event=event, form=form)
 
 
+
+@bp.route('/menu', methods=['GET', 'POST'])
+@role_required('admin')
+def menu():
+     menus = Menu.query.all()
+     form = MenuForm()
+     if form.validate_on_submit():
+          newMenu = Menu(title=form.title.data)
+          db.session.add(newMenu)
+          db.session.commit()
+          return redirect(url_for('admin.menu'))
+
+     return render_template('admin/menu.html', menus=menus, form=form)
+
+
+@bp.route('/guest', methods=['GET', 'POST'])
+@role_required('admin')
+def guest():
+     form = GuestForm()
+     optionList =[]
+     options = Menu.query.all()
+     for option in options:
+          op = option.id, option.title,
+          optionList.append(op)
+
+     form.menu.choices = optionList
+     if form.validate_on_submit():
+          new_guest = Guest(title=form.title.data, content=form.content.data, menu_id=form.menu.data)
+          db.session.add(new_guest)
+          db.session.commit()
+          return redirect(url_for('admin.guest'))
+     return render_template('admin/guest.html', form=form)
+     
