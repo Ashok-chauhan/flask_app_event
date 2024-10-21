@@ -34,6 +34,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+              {% if current_user.role == 'admin' %}
               <a
                 class="nav-link active"
                 aria-current="page"
@@ -45,7 +46,18 @@
                 >Create agenda</a
               >
               <a class="nav-link" href="{{url_for('admin.menu')}}">Menu</a>
+              {% elif current_user.role =='user' %}
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{url_for('main.index')}}"
+                >Home</a
+              >
+              {% endif %} {% if current_user.is_authenticated %}
               <a class="nav-link" href="{{url_for('auth.logout')}}">Logout</a>
+              {% else %}
+              <a class="nav-link" href="{{url_for('auth.login')}}">Login</a>
+              {% endif %}
 
               <!-- <a class="nav-link disabled" aria-disabled="true">Disabled</a> -->
             </div>

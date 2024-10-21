@@ -46,7 +46,10 @@ def login():
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
                 # return redirect(url_for('main.index'))
-                return redirect(url_for('admin.index'))
+                if user.role=='admin':
+                    return redirect(url_for('admin.index'))
+                else:
+                    return redirect(url_for('main.index'))
             else:
                 flash('Please check your login credential and try again')
                 return redirect(url_for('auth.login'))

@@ -1,5 +1,18 @@
 {% extends 'base.html' %} {% block content %}
+<h1 class="text-center">Events</h1>
+<div class="content">
+  {% for event in events %}
 
-<h1>Index page from template. {{ email }}</h1>
+  <div class="post">
+    <p class="title">
+      <b>
+        #{{ event.id }}
+        <a href="event/{{ event.id }}"> {{ event.title }} </a>
+      </b>
+    </p>
 
+    <hr />
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}
