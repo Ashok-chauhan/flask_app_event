@@ -23,7 +23,9 @@ def upload_file(file):
         if file:
                 if extension not in current_app.config['ALLOWED_EXTENTIONS']:
                     return 'File is not allowed.'
-                file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename)))
+               #  file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename)))
+                file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], file.filename))
+
                 return secure_filename(file.filename)
     except:
             return 'File is larger than 16 MB'
