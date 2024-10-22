@@ -13,6 +13,8 @@ from app.models.menu import Menu, Guest
 
 from app.extensions import db
 from app.auth import role_required
+from app.admin.uploadform import UploadForm
+
 
 
 def upload_file(file):
@@ -103,4 +105,16 @@ def guest():
           db.session.commit()
           return redirect(url_for('admin.guest'))
      return render_template('admin/guest.html', form=form)
+
+
+
+
+@bp.route('/upload', methods=['GET', 'POST'])
+def upload():
+     form = UploadForm()
+     if form.validate_on_submit():
+       
+        speaker_file = upload_file(form.speaker_file.data)
+        return redirect(url_for('admin.index'))
+
      
