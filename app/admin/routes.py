@@ -116,5 +116,7 @@ def upload():
        
         speaker_file = upload_file(form.speaker_file.data)
         return redirect(url_for('admin.index'))
+     return render_template('admin/upload.html', form=form)
+     
 
      
