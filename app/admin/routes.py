@@ -111,14 +111,28 @@ def guest():
 
 
 
-@bp.route('/upload', methods=['GET', 'POST'])
+@bp.route('/upload', methods=['POST'])
 def upload():
-     form = UploadForm()
-     if form.validate_on_submit():
+     # form = UploadForm()
+     # if form.validate_on_submit():
        
-        speaker_file = upload_file(form.speaker_file.data)
-        return redirect(url_for('admin.index'))
-     return render_template('admin/upload.html', form=form)
+     #    speaker_file = upload_file(form.speaker_file.data)
+     #    return redirect(url_for('admin.index'))
+     # return render_template('admin/upload.html', form=form)
+     if 'file' not in request.files:
+        return 'No file part'
+     file = request.files['file']
+     if file.filename == '':
+        return 'No selected file'
+     if file and allowed_file(file.filename):
+        filename = file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('uploaded_file', filename=filename))
+     return 'File not allowed'
      
+
+@bp.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return f"File {filename} uploaded successfully."
 
      
