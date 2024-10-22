@@ -124,9 +124,9 @@ def upload():
      file = request.files['file']
      if file.filename == '':
         return 'No selected file'
-     if file and allowed_file(file.filename):
+     if file and file.filename:
         filename = file.filename
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename))
         return redirect(url_for('uploaded_file', filename=filename))
      return 'File not allowed'
      
