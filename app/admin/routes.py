@@ -131,6 +131,12 @@ def upload():
      return 'File not allowed'
      
 
+@bp.route('/upload', methods=['GET'])
+def upload():
+    return render_template('admin/upload.html')
+
+
+
 @bp.route('/uploads/<filename>')
 def uploaded_file(filename):
     return f"File {filename} uploaded successfully."
