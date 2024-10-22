@@ -1,7 +1,7 @@
 from flask import Flask
 
 from config import Config
-from app.extensions import db, env
+from app.extensions import db
 from flask_login import LoginManager
 from app.models.user import Users
 import os
@@ -17,7 +17,6 @@ def create_app(config_class=Config):
    
     # Initialize Flask extensions here
     db.init_app(app)
-    
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
