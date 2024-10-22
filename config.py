@@ -2,10 +2,11 @@ import os
 from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-load_dotenv()
+
 
 
 class Config:
+    load_dotenv()
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'ashok975'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABSE_URI')\
     or 'mysql+pymysql://flask:FlaskApp_9@localhost/events-x'
