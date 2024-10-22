@@ -6,12 +6,12 @@ from flask_login import LoginManager
 from app.models.user import Users
 import os
 from dotenv import load_dotenv
-load_dotenv()
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    load_dotenv()
 
     app.config['UPLOAD_DIRECTORY'] = 'app/static/images/'
     # app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 #16 MB
