@@ -37,7 +37,7 @@ def index():
 @role_required('admin')
 def create_event():
     form = EventForm()
-    
+    pth = os.path.join(current_app.config['UPLOAD_DIRECTORY'],'')
     if form.validate_on_submit():
        
         speaker_file = upload_file(form.speaker_file.data)
@@ -49,7 +49,7 @@ def create_event():
         db.session.commit()
         return redirect(url_for('admin.index'))
 
-    return render_template('admin/create_event.html', form=form)
+    return render_template('admin/create_event.html', form=form , pth=pth)
 
 
 
