@@ -5,6 +5,8 @@ from app.extensions import db
 from flask_login import LoginManager
 from app.models.user import Users
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
