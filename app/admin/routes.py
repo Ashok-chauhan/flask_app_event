@@ -15,7 +15,7 @@ from app.extensions import db
 from app.auth import role_required
 
 
-def upload_file_x(file):
+def upload_file(file):
     try:
         extension = os.path.splitext(file.filename)[1].lower()
         if file:
@@ -27,16 +27,7 @@ def upload_file_x(file):
             return 'File is larger than 16 MB'
     
 
-def upload_file(file):
-   
-        extension = os.path.splitext(file.filename)[1].lower()
-        if file:
-                if extension not in current_app.config['ALLOWED_EXTENTIONS']:
-                    return 'File is not allowed.'
-                file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename)))
-                return secure_filename(file.filename)
-    
-     
+
 @bp.route('/')
 def index():
     events = Events.query.all() 
@@ -48,7 +39,7 @@ def index():
 @role_required('admin')
 def create_event():
     form = EventForm()
-    pth = os.path.join(current_app.config['UPLOAD_DIRECTORY'],'')
+    
     if form.validate_on_submit():
        
         speaker_file = upload_file(form.speaker_file.data)
@@ -60,7 +51,7 @@ def create_event():
         db.session.commit()
         return redirect(url_for('admin.index'))
 
-    return render_template('admin/create_event.html', form=form , pth=pth)
+    return render_template('admin/create_event.html', form=form)
 
 
 
