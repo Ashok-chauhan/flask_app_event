@@ -15,7 +15,7 @@ from app.extensions import db
 from app.auth import role_required
 
 
-def upload_file(file):
+def upload_file_x(file):
     try:
         extension = os.path.splitext(file.filename)[1].lower()
         if file:
@@ -25,6 +25,17 @@ def upload_file(file):
                 return secure_filename(file.filename)
     except:
             return 'File is larger than 16 MB'
+    
+
+def upload_file(file):
+   
+        extension = os.path.splitext(file.filename)[1].lower()
+        if file:
+                if extension not in current_app.config['ALLOWED_EXTENTIONS']:
+                    return 'File is not allowed.'
+                file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename)))
+                return secure_filename(file.filename)
+    
      
 @bp.route('/')
 def index():
