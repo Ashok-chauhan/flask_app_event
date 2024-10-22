@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, current_app, request, send_from_directory
+from flask import render_template, redirect, url_for, current_app, request, send_from_directory, jsonify, send_file
 from werkzeug.utils import secure_filename
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
@@ -127,18 +127,38 @@ def upload():
      if file and file.filename:
         filename = file.filename
         file.save(os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename))
-        return redirect(url_for('uploaded_file', filename=filename))
+        return redirect(url_for('admin.uploaded_file', filename=filename))
+       
      return 'File not allowed'
      
 
-@bp.route('/upload', methods=['GET'])
-def upload():
+@bp.route('/uploadfile', methods=['GET'])
+def uploadfile():
     return render_template('admin/upload.html')
 
 
 
 @bp.route('/uploads/<filename>')
 def uploaded_file(filename):
+    
     return f"File {filename} uploaded successfully."
 
-     
+
+
+@bp.route('/download/<filename>', methods=['GET'])
+def download(filename):
+     # return 'got ittt' + filename
+     # filename = 'me.jpg'
+     file_path = os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
+     return send_file(file_path, as_attachment=False)
+     # return send_from_directory(current_app.config['UPLOAD_DIRECTORY'], filename, as_attachment=True)
+
+     # file_path = os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
+     # if os.path.exists(file_path):
+     #      # If file exists, serve the file
+     #      return send_from_directory(current_app.config['UPLOAD_DIRECTORY'], filename, as_attachment=True)
+     # else:
+     #      # Log the error for debugging
+     #      print(f"File not found: {file_path}")
+     #      return jsonify({"error": "File not found"}), 404
+          
