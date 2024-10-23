@@ -11,10 +11,10 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     
-    app.config['UPLOAD_DIRECTORY'] = './uploads/'  #'./app/static/images/'
+    app.config['UPLOAD_DIRECTORY'] = os.path.join(app.root_path, 'static','images')
     # app.config['MAX_CONTENT_LENGTH'] = 16*1024*1024 #16 MB
     app.config['ALLOWED_EXTENTIONS'] = ['.jpg', 'jpeg', '.png', '.gif', '.pdf']
-   
+    
     # Initialize Flask extensions here
     db.init_app(app)
     login_manager = LoginManager()
