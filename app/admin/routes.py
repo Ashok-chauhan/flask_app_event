@@ -150,8 +150,8 @@ def download(filename):
      # return 'got ittt' + filename
      # filename = 'me.jpg'
      file_path = os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
-     return send_file(file_path, as_attachment=False)
-     # return send_from_directory(current_app.config['UPLOAD_DIRECTORY'], filename, as_attachment=True)
+     # return send_file(file_path, as_attachment=False)
+     return send_from_directory(current_app.config['UPLOAD_DIRECTORY'], filename, as_attachment=False)
 
      # file_path = os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
      # if os.path.exists(file_path):
