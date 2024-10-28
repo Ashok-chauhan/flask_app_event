@@ -5,11 +5,11 @@ import os
 from app.admin.eventform import EventForm
 from app.admin.commentform import CommentForm
 from app.admin.menuform import MenuForm
-from app.admin.guestform import GuestForm
+from app.admin.facultyform import FacultyForm
 from app.admin import bp
 from app.models.event import Events
 from app.models.comments import Comments
-from app.models.menu import Menu, Guest
+from app.models.menu import Menu, Faculty
 
 from app.extensions import db
 from app.auth import role_required
@@ -90,11 +90,12 @@ def menu():
      return render_template('admin/menu.html', menus=menus, form=form)
 
 
-@bp.route('/guest', methods=['GET', 'POST'])
+@bp.route('/faculty', methods=['GET', 'POST'])
 @role_required('admin')
-def guest():
-     form = GuestForm()
+def faculty():
+     form = FacultyForm()
      optionList =[]
+     faculty_list = []
      options = Menu.query.all()
      for option in options:
           op = option.id, option.title,
@@ -102,11 +103,17 @@ def guest():
 
      form.menu.choices = optionList
      if form.validate_on_submit():
-          new_guest = Guest(title=form.title.data, content=form.content.data, menu_id=form.menu.data)
-          db.session.add(new_guest)
+          picture = upload_file(form.picture.data)
+          new_faculty = Faculty(title=form.title.data, content=form.content.data, picture=picture, menu_id=form.menu.data, faculty_type=form.faculty_type.data)
+          db.session.add(new_faculty)
           db.session.commit()
-          return redirect(url_for('admin.guest'))
-     return render_template('admin/guest.html', form=form)
+          return redirect(url_for('admin.faculty'))
+     return render_template('admin/faculty.html', form=form)
+
+@bp.route('/faculties', methods=['GET'])
+def faculties():
+     faculties = Faculty.query.all()
+     return render_template('admin/faculties.html', faculties=faculties)
 
 
 

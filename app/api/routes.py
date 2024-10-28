@@ -7,6 +7,7 @@ from app.extensions import db
 from app.models.event import Events
 from app.models.comments import Comments
 from app.models.user import Users
+from app.models.menu import Faculty
 
 
 
@@ -240,5 +241,49 @@ def checkphone():
         result['role'] = None
         return jsonify(result)
     
+
+@bp.route('/faculties', methods=['GET'])
+def faculties():
+    directors = Faculty.query.filter_by(faculty_type='director')
+    us_faculty = Faculty.query.filter_by(faculty_type='us_faculty')
+    faculty = Faculty.query.filter_by(faculty_type='faculty')
+    director_list = []
+    us_faculty_list = []
+    faculty_list = []
+    response =[]
+    for director in directors:
+        director_dict = {}
+        director_dict['title'] = director.title
+        director_dict['content'] = director.content
+        director_dict['picture'] = str(request.url_root) +'static/images/'+ str(director.picture) if director.picture else None
+        director_list.append(director_dict)
+
+    for usfaculty in us_faculty:
+        usfaculty_dict = {}
+        usfaculty_dict['title'] = usfaculty.title
+        usfaculty_dict['content'] = usfaculty.content
+        usfaculty_dict['picture'] = str(request.url_root) +'static/images/'+ str(usfaculty.picture) if usfaculty.picture else None
+        us_faculty_list.append(usfaculty_dict)
+
+    for fac in faculty:
+        faculty_dict = dict()
+        faculty_dict['title'] = fac.title
+        faculty_dict['content'] = fac.content
+        faculty_dict['picture'] = str(request.url_root) +'static/images/'+ str(fac.picture) if fac.picture else None
+        faculty_list.append(faculty_dict)
+
+    response.append({'directors':director_list})
+    response.append({'north americal faculty':us_faculty_list})
+    response.append({'faculty':faculty_list})
+    # return jsonify({'directors':director_list}, {'north americal faculty':us_faculty_list}, {'faculty':faculty_list})
+    return jsonify({'response':response})
+
+
+    
+
+
+
+
+
 
     

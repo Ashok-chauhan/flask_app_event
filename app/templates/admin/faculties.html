@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+<div><h1>Faculties</h1></div>
+{% if faculties %} {% for faculty in faculties %}
+<hr />
+{% if faculty.faculty_type == 'director' %}
+<div class="text-secondary">Course dirctors</div>
+<div><strong>{{faculty.title}}</strong></div>
+{% if faculty.picture%}
+<picture
+  ><img
+    src="{{url_for('static', filename='images/'+faculty.picture)}}"
+    class="img-thumbnail"
+/></picture>
+{% endif %}
+<div><p>{{faculty.content}}</p></div>
+{% endif %} {% if faculty.faculty_type == 'us_faculty' %}
+
+<div class="text-secondary">North American Faculty</div>
+<div><strong>{{faculty.title}}</strong></div>
+{% if faculty.picture%}
+<picture
+  ><img
+    src="{{url_for('static', filename='images/'+faculty.picture)}}"
+    class="img-thumbnail"
+/></picture>
+{% endif %}
+<div><p>{{faculty.content}}</p></div>
+
+{% endif %} {% if faculty.faculty_type == 'faculty' %}
+<div class="text-secondary">Faculty</div>
+<div><strong>{{faculty.title}}</strong></div>
+{% if faculty.picture%}
+<picture
+  ><img
+    src="{{url_for('static', filename='images/'+faculty.picture)}}"
+    class="img-thumbnail"
+/></picture>
+{% endif %}
+<div><p>{{faculty.content}}</p></div>
+{% endif %} {% endfor %} {% endif %} {% endblock %}

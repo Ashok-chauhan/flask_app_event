@@ -5,7 +5,7 @@ class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    guest = db.relationship('Guest', cascade="all,delete", backref='guest_type')
+    faculty = db.relationship('Faculty', cascade="all,delete", backref='facultytype')
 
 
     def __reper__(self):
@@ -13,12 +13,13 @@ class Menu(db.Model):
     
 
 
-class Guest(db.Model):
+class Faculty(db.Model):
     id= db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     content = db.Column(db.Text)
     picture = db.Column(db.String(255))
     menu_id = db.Column(db.Integer, db.ForeignKey('menu.id'))
+    faculty_type = db.Column(db.String(100))
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __repr__(self):
