@@ -226,4 +226,19 @@ def post_comment():
         result['error'] = 'Key Error'
         return jsonify(result)
     
+@bp.route('/checkphone', methods=['POST'])
+def checkphone():
+    phone = request.json
+    result = dict()
+    user = Users.query.filter_by(phone=phone['phone']).first()
+    if user:
+        result['response'] = user.phone
+        result['role'] = user.role
+        return jsonify(result)
+    else:
+        result['response'] = None
+        result['role'] = None
+        return jsonify(result)
+    
+
     
