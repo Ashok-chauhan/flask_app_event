@@ -2,14 +2,30 @@
 <div class="row">
   <div class="col-md-6">
     {% for menu in menus %}
-    <div>#{{ menu.id}} {{ menu.title }}</div>
+    <div class="row">
+      <div class="col-md-8">#{{ menu.id}} {{ menu.title }}</div>
+      <div class="col-md-2 p-2">
+        <a
+          class="btn btn-outline-secondary btn-sm"
+          href="{{ url_for('admin.editmenu', id=menu['id']) }}"
+          >Edit</a
+        >
+      </div>
+      <div class="col-md-2 p-2">
+        <a
+          class="btn btn-outline-danger btn-sm"
+          href="{{ url_for('admin.delete_menu', id=menu['id']) }}"
+          >Delete</a
+        >
+      </div>
+    </div>
     {% endfor %}
   </div>
 
   <div class="col-md-6">
     <!-- <div class="d-flex justify-content-center"> -->
     <form method="POST" action="menu">
-      <h1>Menu</h1>
+      <h1>Create Menu</h1>
 
       {% for field, errors in form.errors.items() %}
       <div class="alert alert-danger">

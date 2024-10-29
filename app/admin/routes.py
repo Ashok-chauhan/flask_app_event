@@ -74,6 +74,22 @@ def event(id):
           
      return render_template('admin/event.html', event=event, form=form)
 
+@bp.route('/modrate_comment/<int:id>', methods=['GET'])
+def modrate_comment(id):
+     comment = Comments.query.get_or_404(id)
+     if comment:
+          comment.status = 1
+          db.session.add(comment)
+          db.session.commit()
+          return redirect(url_for('admin.event', id=comment.events_id))
+     
+
+@bp.route('/delete_comment/<int:id>', methods=['GET'])
+def delete_comment(id):
+     comment = Comments.query.get_or_404(id)
+     db.session.delete(comment)
+     db.session.commit()
+     return redirect(url_for('admin.event', id=comment.events_id))
 
 
 @bp.route('/menu', methods=['GET', 'POST'])
@@ -88,6 +104,30 @@ def menu():
           return redirect(url_for('admin.menu'))
 
      return render_template('admin/menu.html', menus=menus, form=form)
+
+@bp.route('/editmenu/<int:id>', methods=['GET', 'POST'])
+def editmenu(id):
+     menu = Menu.query.get_or_404(id)
+     form = MenuForm()
+     if form.validate_on_submit():
+          menu.title = form.title.data
+          db.session.add(menu)
+          db.session.commit()
+          return redirect(url_for('admin.menu'))
+     form.title.data = menu.title
+     return render_template('admin/edit_menu.html', form=form)
+
+@bp.route('/delete_menu/<int:id>', methods=['GET', 'POST'])
+def delete_menu(id):
+     menu = db.get_or_404(Menu, id)
+     db.session.delete(menu)
+     db.session.commit()
+     return redirect(url_for('admin.menu'))
+
+
+     
+
+
 
 
 @bp.route('/faculty', methods=['GET', 'POST'])
