@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, current_app, request, send_from_directory, jsonify, send_file
 from werkzeug.utils import secure_filename
+from flask_login import current_user
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
 from app.admin.eventform import EventForm
@@ -10,6 +11,7 @@ from app.admin import bp
 from app.models.event import Events
 from app.models.comments import Comments
 from app.models.menu import Menu, Faculty
+from app.models.user import Users
 
 from app.extensions import db
 from app.auth import role_required
@@ -66,8 +68,12 @@ def event(id):
      
      event = Events.query.get_or_404(id)
      form = CommentForm()
+     user_id = current_user.get_id()
+     user = Users.query.get(user_id)
+     full_name = user.f_name + ' '+user.l_name
+
      if form.validate_on_submit():
-          comment = Comments(content=form.content.data, events=event)
+          comment = Comments(content=form.content.data, user_name=full_name, events=event)
           db.session.add(comment)
           db.session.commit()
           return redirect(url_for('admin.event', id=event.id))

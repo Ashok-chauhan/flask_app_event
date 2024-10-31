@@ -45,7 +45,7 @@ def index():
         for comment in event.comment:
             comment_dict = {}
             comment_dict['id'] = comment.id
-            comment_dict['content'] = comment.content
+            comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
             comment_value.append(comment_dict)
             event_dict['comments'] = comment_value
       
@@ -89,7 +89,7 @@ def events_by_date(event_date):
         for comment in event.comment:
             comment_dict = {}
             comment_dict['id'] = comment.id
-            comment_dict['content'] = comment.content
+            comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
             comment_value.append(comment_dict)
             event_dict['comments'] = comment_value
       
@@ -133,7 +133,7 @@ def event_by_id(event_id):
         for comment in event.comment:
             comment_dict = {}
             comment_dict['id'] = comment.id
-            comment_dict['content'] = comment.content
+            comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
             comment_value.append(comment_dict)
             event_dict['comments'] = comment_value
       
@@ -196,13 +196,14 @@ def login():
 
 @bp.route('/comments/<int:event_id>', methods=['GET'])
 def comments(event_id):
-    cmt = dict()
+   
     return_comment=[]
-    comments = Comments.query.filter_by(events_id=event_id, status=1)
+    comments = Comments.query.filter_by(events_id=event_id)
     if comments:
         for comment in comments:
+            cmt = dict()
             cmt['id'] = comment.id
-            cmt['content'] = comment.content
+            cmt['user'] = comment.user_name + ' at '+ str(comment.created_at)
             cmt['events_id'] = comment.events_id
             return_comment.append(cmt)
 
@@ -214,8 +215,12 @@ def post_comment():
     comment = request.json
     result = dict()
     try:
+        if comment['user_id']:
+            user =Users.query.get(comment['user_id'])
+            commenter = user.f_name +' '+ user.l_name
+
         if comment['events_id'] and comment['content']:
-            new_comment = Comments(content=comment['content'], events_id=comment['events_id'])
+            new_comment = Comments(content=comment['content'], events_id=comment['events_id'], user_name=commenter)
             db.session.add(new_comment)
             db.session.commit()
             result['sucsess'] = 'true'
