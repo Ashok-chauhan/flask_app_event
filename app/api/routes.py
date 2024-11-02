@@ -8,6 +8,7 @@ from app.models.event import Events
 from app.models.comments import Comments
 from app.models.user import Users
 from app.models.menu import Faculty
+from app.utility import generate_token, verify_token
 
 
 
@@ -282,6 +283,39 @@ def faculties():
     response.append({'faculty':faculty_list})
     # return jsonify({'directors':director_list}, {'north americal faculty':us_faculty_list}, {'faculty':faculty_list})
     return jsonify({'response':response})
+
+@bp.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    phone = data.get('phone')
+    # Assume a function find user by phone check the user database
+    user = Users.query.filter_by(phone=phone).first()
+    if user:
+        token = generate_token(user.phone)
+        # reset_url = f"{request.url_root}api/reset-password/{token}"
+        return jsonify({'response': token}), 200
+    else:
+        return jsonify({'error': 'Phone not found'}), 404
+
+@bp.route('/reset-password', methods=['POST'])
+def reset_password():
+    jsondata = request.get_json()
+    token = jsondata.get('token')
+    phone = verify_token(token)
+    if not phone:
+        return jsonify({'error': 'Invalid or expired token'}), 400
+        
+    new_password = jsondata.get('password')
+    # Update the user's password in the database
+    user = Users.query.filter_by(phone=phone).first()
+    if user:
+        user.password = generate_password_hash(new_password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({'response': 'Password updated successfully'}), 200
+    
+
+    
 
 
     
