@@ -7,7 +7,7 @@ from app.extensions import db
 from app.models.event import Events
 from app.models.comments import Comments
 from app.models.user import Users
-from app.models.menu import Faculty
+from app.models.menu import Faculty, Welcome, Menu
 from app.utility import generate_token, verify_token
 
 
@@ -314,6 +314,38 @@ def reset_password():
         db.session.commit()
         return jsonify({'response': 'Password updated successfully'}), 200
     
+@bp.route('/welcome', methods=['GET'])
+def welcome():
+    welcomes = Welcome.query.all()
+    welcome_lsit = []
+    for welcome in welcomes:
+
+        wel = {}
+        wel['id'] = welcome.id
+        wel['title'] = welcome.title
+        wel['content'] = welcome.content
+        wel['picture'] = str(request.url_root) +'static/images/'+ str(welcome.picture) if welcome.picture else None
+        wel['picture_title'] = welcome.picture_title
+        wel['caption'] = welcome.caption
+        welcome_lsit.append(wel)
+
+        return jsonify( welcome_lsit)
+
+
+@bp.route('/menu', methods=['GET'])
+def menu():
+    menus = Menu.query.all()
+    menu_lsit = []
+    for menu in menus:
+        menudict = {}
+        menudict['id'] = menu.id
+        menudict['title'] = menu.title
+        menudict['created_at'] = menu.created_at
+        menu_lsit.append(menudict)
+
+    return jsonify( menu_lsit)
+
+
 
     
 

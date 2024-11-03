@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, TimeField, DateTimeLocalField, FileField
+from wtforms import StringField, PasswordField, SubmitField, DateField, TimeField, DateTimeLocalField, FileField, TextAreaField
 from wtforms.validators import InputRequired, length, ValidationError
 #from wtforms.fields import DateTimeField, DateField, TimeField, DateTimeLocalField
 
@@ -29,6 +29,22 @@ class EventForm(FlaskForm):
     date_field = DateField()
     time_field = TimeField()
     submit = SubmitField("Create programe")
+
+
+class WelcomeForm(FlaskForm):
+    title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Welcome title"})
+    content = TextAreaField(validators=[InputRequired()], render_kw={"placeholder":"Welcome content"})
+    picture = FileField('picture')
+    picture_title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Picture title"})
+    caption = StringField(validators=[InputRequired()], render_kw={"placeholder":"Caption"})
+    submit = SubmitField("Submit welcome message")
+
+
+
+
+
+
+
 
 
 

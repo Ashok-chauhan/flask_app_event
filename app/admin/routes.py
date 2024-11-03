@@ -3,14 +3,14 @@ from werkzeug.utils import secure_filename
 from flask_login import current_user
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
-from app.admin.eventform import EventForm
+from app.admin.eventform import EventForm, WelcomeForm
 from app.admin.commentform import CommentForm
 from app.admin.menuform import MenuForm
 from app.admin.facultyform import FacultyForm
 from app.admin import bp
 from app.models.event import Events
 from app.models.comments import Comments
-from app.models.menu import Menu, Faculty
+from app.models.menu import Menu, Faculty, Welcome
 from app.models.user import Users
 
 from app.extensions import db
@@ -160,6 +160,29 @@ def faculty():
 def faculties():
      faculties = Faculty.query.all()
      return render_template('admin/faculties.html', faculties=faculties)
+
+
+@bp.route('/welcome', methods=['GET', 'POST'])
+@role_required('admin')
+def welcome():
+     welcome = Welcome.query.all()
+     form = WelcomeForm()
+     if form.validate_on_submit():
+          picture = upload_file(form.picture.data)
+          welcome_message = Welcome(title=form.title.data, content=form.content.data, picture=form.picture.data, picture_title=form.picture_title.data, caption=form.caption.data)
+          db.session.add(welcome_message)
+          db.session.commit()
+          return redirect(url_for('admin.welcome'))
+     return render_template('admin/welcome.html', welcome=welcome, form=form)
+
+@bp.route('/delete_welcome/<int:id>', methods=['GET', 'POST'])
+@role_required('admin')
+def delete_welcome(id):
+     welcome = db.get_or_404(Welcome, id)
+     db.session.delete(welcome)
+     db.session.commit()
+     return redirect(url_for('admin.welcome'))
+
 
 
 
