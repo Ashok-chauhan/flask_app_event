@@ -7,6 +7,7 @@ from app.extensions import db
 from app.models.event import Events
 from app.models.comments import Comments
 from app.models.user import Users
+from app.models.devices import Devices
 from app.models.menu import Faculty, Welcome, Menu
 from app.utility import generate_token, verify_token
 
@@ -344,6 +345,36 @@ def menu():
         menu_lsit.append(menudict)
 
     return jsonify( menu_lsit)
+
+
+@bp.route('/devices', methods=['GET'])
+def devices():
+    devices = Devices.query.all()
+    device_list =[]
+    for device in devices:
+        token = {}
+        token['id'] = device.id
+        token['role'] = device.role
+        token['token'] = device.token
+        token['created_at'] = device.created_at
+        device_list.append(token)
+
+    return jsonify({'response': device_list})
+
+@bp.route('/devices', methods=['POST'])
+def device_token():
+    jsontoken = request.get_json()
+    token = jsontoken.get('token')
+    user_type = jsontoken.get('role')
+    if token:
+        new_token = Devices(token=token, role=user_type)
+        db.session.add(new_token)
+        db.session.commit()
+        return jsonify({'response': 'true'}), 201
+    else:
+        return jsonify({'error': 'false'}), 400
+
+
 
 
 

@@ -4,7 +4,7 @@ from wtforms.validators import InputRequired, length, ValidationError
 #from wtforms.fields import DateTimeField, DateField, TimeField, DateTimeLocalField
 
 class RegistrationForm(FlaskForm):
-    email = StringField(validators=[InputRequired()], render_kw={"placeholder":"Email"})
+    email = StringField( render_kw={"placeholder":"Email"})
     f_name = StringField(validators=[InputRequired()], render_kw={"placeholder":"First naame"})
     l_name = StringField(validators=[InputRequired()], render_kw={"placeholder":"Last name"})
     phone = StringField(validators=[InputRequired(),validators.Length(min=8, max=10)], render_kw={"placeholder":"Phone number"})
