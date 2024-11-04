@@ -366,13 +366,18 @@ def device_token():
     jsontoken = request.get_json()
     token = jsontoken.get('token')
     user_type = jsontoken.get('role')
-    if token:
-        new_token = Devices(token=token, role=user_type)
-        db.session.add(new_token)
-        db.session.commit()
-        return jsonify({'response': 'true'}), 201
-    else:
-        return jsonify({'error': 'false'}), 400
+    token_from_db = Devices.query.filter_by(token=token).first()
+    try:
+        if token_from_db is None:
+            new_token = Devices(token=token, role=user_type)
+            db.session.add(new_token)
+            db.session.commit()
+            return jsonify({'response': 'true'}), 201
+        else:
+            return jsonify({'response': 'Token alredy taken'}), 200
+    except:
+        return jsonify({'error':'false'}), 400
+
 
 
 
