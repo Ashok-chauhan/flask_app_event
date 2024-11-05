@@ -42,6 +42,9 @@ def index():
         event_dict['breaks'] = event.breaks
         event_dict['breaks_start'] = event.breaks_start
         event_dict['breaks_end'] = event.breaks_end
+        event_dict['open_house'] = event.open_house
+        event_dict['open_house_start'] = event.open_house_start
+        event_dict['open_house_end'] = event.open_house_end
        
         comment_value=[]
         for comment in event.comment:
@@ -86,6 +89,10 @@ def events_by_date(event_date):
         event_dict['breaks'] = event.breaks
         event_dict['breaks_start'] = event.breaks_start
         event_dict['breaks_end'] = event.breaks_end
+
+        event_dict['open_house'] = event.open_house
+        event_dict['open_house_start'] = event.open_house_start
+        event_dict['open_house_end'] = event.open_house_end
        
         comment_value=[]
         for comment in event.comment:
@@ -130,6 +137,9 @@ def event_by_id(event_id):
         event_dict['breaks'] = event.breaks
         event_dict['breaks_start'] = event.breaks_start
         event_dict['breaks_end'] = event.breaks_end
+        event_dict['open_house'] = event.open_house
+        event_dict['open_house_start'] = event.open_house_start
+        event_dict['open_house_end'] = event.open_house_end
        
         comment_value=[]
         for comment in event.comment:

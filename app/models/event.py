@@ -19,6 +19,9 @@ class Events(db.Model):
     breaks = db.Column(db.String(150))
     breaks_start = db.Column(db.String(100))
     breaks_end = db.Column(db.String(100))
+    open_house = db.Column(db.String(150))
+    open_house_start = db.Column(db.String(100), nullable=True)
+    open_house_end = db.Column(db.String(100), nullable=True)
     comment = db.relationship('Comments', cascade="all,delete", backref='events')
 
 
