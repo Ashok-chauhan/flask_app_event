@@ -4,8 +4,8 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import login_user
 from app.api import bp
 from app.extensions import db
-from app.models.event import Events, Agenda
-from app.models.comments import Comments
+from app.models.event import Events, Agenda, Venue
+from app.models.comments import Comments, Questions
 from app.models.user import Users
 from app.models.devices import Devices
 from app.models.menu import Faculty, Welcome, Menu
@@ -418,6 +418,82 @@ def delete_account():
         return jsonify({'success': 'true'})
      else:
          return jsonify({'error':'false'})
+     
+
+@bp.route('/venue')
+def venue():
+    venues = Venue.query.all()
+    venue_list = []
+    for venue in venues:
+        venuedict= {}
+        venuedict['id'] = venue.id
+        venuedict['content'] = venue.content
+        venuedict['created_at'] = venue.created_at
+
+        venue_list.append(venuedict)
+
+    return jsonify( venue_list)
+
+
+@bp.route('/questions', methods=['POST'])
+def questions():
+    jsondata = request.get_json()
+    user_id = jsondata.get('user_id')
+    question = jsondata.get('question')
+    user = Users.query.get(user_id)
+    
+    if user:
+        user_name = user.f_name + ' ' + user.l_name
+        newQuestion = Questions(content=question, user_id=user_id, user_name=user_name)
+        db.session.add(newQuestion)
+        db.session.commit()
+        return jsonify({'question': question}), 201
+    else:
+        return jsonify({'error':'something wrong'}), 401
+    
+@bp.route('/myquestions/<int:user_id>', methods=['GET'])
+def myquestions(user_id):
+    
+    questions = Questions.query.filter_by(user_id=user_id)
+    if questions:
+        q_list= []
+        for question in questions:
+            q_dict = {}
+            q_dict['id'] = question.id
+            q_dict['content'] = question.content
+            q_dict['user_name'] = question.user_name
+            q_dict['created_at'] = question.created_at
+            q_list.append(q_dict)
+
+        return jsonify({'questions': q_list})
+    
+    
+
+@bp.route('/allquestions', methods=['POST'])
+def allquestions():
+    jsondata = request.get_json()
+    role = jsondata.get('role')
+    if role !='admin':
+        return jsonify({'error':"you are not authorized"})
+    
+    questions = Questions.query.all()
+    if questions:
+        q_list= []
+        for question in questions:
+            q_dict = {}
+            q_dict['id'] = question.id
+            q_dict['content'] = question.content
+            q_dict['user_name'] = question.user_name
+            q_dict['created_at'] = question.created_at
+            q_list.append(q_dict)
+
+        return jsonify({'questions': q_list})
+    
+    
+    
+
+
+
      
 
 

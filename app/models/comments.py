@@ -13,3 +13,18 @@ class Comments(db.Model):
 
     def __repr__(self):
         return f'<Comments "{self.content[:20]}...">'
+    
+
+
+class Questions(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    user_id = db.Column(db.Integer, index=True)
+    user_name = db.Column(db.String(255))
+    status = db.Column(db.Integer, nullable=False, default=0)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+
+
+    def __repr__(self):
+        return f'<Comments "{self.content[:20]}...">'

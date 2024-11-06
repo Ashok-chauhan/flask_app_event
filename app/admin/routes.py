@@ -4,12 +4,12 @@ from flask_login import current_user
 from datetime import datetime 
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
-from app.admin.eventform import EventForm, WelcomeForm
+from app.admin.eventform import EventForm, WelcomeForm, VenueForm
 from app.admin.commentform import CommentForm
 from app.admin.menuform import MenuForm, AgendaForm
 from app.admin.facultyform import FacultyForm
 from app.admin import bp
-from app.models.event import Events, Agenda
+from app.models.event import Events, Agenda, Venue
 from app.models.comments import Comments
 from app.models.menu import Menu, Faculty, Welcome
 from app.models.user import Users
@@ -173,6 +173,42 @@ def delete_agenda(id):
      db.session.delete(agenda)
      db.session.commit()
      return redirect(url_for('admin.agenda'))
+
+
+
+
+@bp.route('/venue', methods=['GET', 'POST'])
+@role_required('admin')
+def venue():
+     venues = Venue.query.all()
+     form = VenueForm()
+     if form.validate_on_submit():
+          newVenue = Venue(content=form.content.data)
+          db.session.add(newVenue)
+          db.session.commit()
+          return redirect(url_for('admin.menu'))
+
+     return render_template('admin/venue.html', venues=venues, form=form)
+
+@bp.route('/edit_venue/<int:id>', methods=['GET', 'POST'])
+def edit_venue(id):
+     venue = Venue.query.get_or_404(id)
+     form = VenueForm()
+     if form.validate_on_submit():
+          venue.content = form.content.data
+          db.session.add(venue)
+          db.session.commit()
+          return redirect(url_for('admin.venue'))
+     form.content.data = venue.content
+     return render_template('admin/edit_venue.html', form=form)
+
+@bp.route('/delete_venue/<int:id>', methods=['GET', 'POST'])
+def delete_venue(id):
+     venue = db.get_or_404(Venue, id)
+     db.session.delete(venue)
+     db.session.commit()
+     return redirect(url_for('admin.venue'))
+
 
      
 

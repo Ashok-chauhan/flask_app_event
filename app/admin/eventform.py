@@ -73,6 +73,11 @@ class WelcomeForm(FlaskForm):
     submit = SubmitField("Submit welcome message")
 
 
+class VenueForm(FlaskForm):
+    content = TextAreaField(validators=[InputRequired()], render_kw={"placeholder":"Venue"})
+    submit = SubmitField("Submit")
+
+
 
 
 

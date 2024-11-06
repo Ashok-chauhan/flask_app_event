@@ -40,3 +40,12 @@ class Events(db.Model):
 
     def __reper__(self):
         return f'<Events "{self.title}">'
+
+class Venue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+    def __reper__(self):
+        return f'<Venue "{self.content}">'
+
