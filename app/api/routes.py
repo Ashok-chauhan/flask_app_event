@@ -407,6 +407,19 @@ def agenda():
     return jsonify( agenda_list)
 
 
+@bp.route('/delete_account', methods=['POST'])
+def delete_account():
+     phonedata = request.get_json()
+     phone = phonedata.get('phone')
+     account = Users.query.filter_by(phone=phone).first()
+     if account:
+        db.session.delete(account)
+        db.session.commit()
+        return jsonify({'success': 'true'})
+     else:
+         return jsonify({'error':'false'})
+     
+
 
     
 
