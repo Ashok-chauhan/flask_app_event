@@ -27,7 +27,7 @@ def registration():
         
         # print(time12hour(form.time_field.data))
        
-        new_user = Users(email=form.email.data, f_name=form.f_name.data,l_name=form.l_name.data, phone=form.phone.data, password=generate_password_hash(form.password.data))
+        new_user = Users(f_name=form.f_name.data,l_name=form.l_name.data, phone=form.phone.data, password=generate_password_hash(form.password.data))
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('auth.login'))

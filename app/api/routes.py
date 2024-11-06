@@ -165,14 +165,14 @@ def register():
                     result['error'] = 'Password must be match'
                     return jsonify(result)
                     
-                new_user = Users(email=user['email'], f_name=user['f_name'],l_name=user['l_name'], phone=user['phone'], password=generate_password_hash(user['password']))
+                new_user = Users(f_name=user['f_name'],l_name=user['l_name'], phone=user['phone'], password=generate_password_hash(user['password']))
                 try:
                     db.session.add(new_user)
                     db.session.commit()
                     result['sucess'] = 'true'
                     return jsonify(result)
                 except IntegrityError:
-                    result['error'] = 'email or phone already taken'
+                    result['error'] = 'phone already taken'
                     return jsonify(result)
             except KeyError:
                 result['error'] ='Key Error'

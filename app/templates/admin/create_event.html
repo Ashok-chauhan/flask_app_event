@@ -3,6 +3,11 @@
   <form method="POST" action="events" enctype="multipart/form-data">
     <h1>Programme</h1>
     {{ form.hidden_tag() }}
+    <label for="menu" class="form-label">Select Agenda</label>
+    <div class="form-group mb-3">
+      {{ form.agenda_id(class_="form-select") }}
+    </div>
+
     <div class="form-group mb-3">{{ form.date(class_="form-control") }}</div>
     <div class="form-group mb-3">{{ form.title(class_="form-control") }}</div>
     <div class="form-group mb-3">{{ form.speaker(class_="form-control") }}</div>

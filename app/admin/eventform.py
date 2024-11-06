@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, TimeField, DateTimeLocalField, FileField, TextAreaField
+from wtforms import StringField, SelectField, SubmitField, DateField, TimeField, DateTimeLocalField, FileField, TextAreaField
 from wtforms.validators import InputRequired, length, ValidationError, optional
 #from wtforms.fields import DateTimeField, DateField, TimeField, DateTimeLocalField
 
@@ -32,6 +32,7 @@ from wtforms.validators import InputRequired, length, ValidationError, optional
 
 
 class EventForm(FlaskForm):
+    agenda_id = SelectField(u'Choose an option', choices=[])
     date = DateField()
     title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Session name"})
     speaker = StringField(render_kw={"placeholder":"Speaker name"})

@@ -1,14 +1,15 @@
 from flask import render_template, redirect, url_for, current_app, request, send_from_directory, jsonify, send_file
 from werkzeug.utils import secure_filename
 from flask_login import current_user
+from datetime import datetime 
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
 from app.admin.eventform import EventForm, WelcomeForm
 from app.admin.commentform import CommentForm
-from app.admin.menuform import MenuForm
+from app.admin.menuform import MenuForm, AgendaForm
 from app.admin.facultyform import FacultyForm
 from app.admin import bp
-from app.models.event import Events
+from app.models.event import Events, Agenda
 from app.models.comments import Comments
 from app.models.menu import Menu, Faculty, Welcome
 from app.models.user import Users
@@ -45,6 +46,14 @@ def index():
 @role_required('admin')
 def create_event():
     form = EventForm()
+
+    optionList =[]
+    options = Agenda.query.all()
+    for option in options:
+          op = option.id, option.title,
+          optionList.append(op)
+
+    form.agenda_id.choices = optionList
     
     if form.validate_on_submit():
        
@@ -52,7 +61,7 @@ def create_event():
         keynote_file = upload_file(form.keynote_file.data)
         comments_file = upload_file(form.comments_file.data)
         
-        event = Events(date=form.date.data, title=form.title.data, speaker=form.speaker.data, speaker_start=form.speaker_start.data, speaker_end=form.speaker_end.data, speaker_file=speaker_file,  keynote=form.keynote.data, keynote_start=form.keynote_start.data, keynote_end=form.keynote_end.data, keynote_file=keynote_file,  comments=form.comments.data, comments_start=form.comments_start.data, comments_end=form.comments_end.data, comments_file=comments_file,  breaks=form.breaks.data, breaks_start=form.breaks_start.data, breaks_end=form.breaks_end.data, open_house=form.open_house.data, open_house_start=form.open_house_start.data, open_house_end=form.open_house_end.data)
+        event = Events(agenda_id=form.agenda_id.data, date=form.date.data, title=form.title.data, speaker=form.speaker.data, speaker_start=form.speaker_start.data, speaker_end=form.speaker_end.data, speaker_file=speaker_file,  keynote=form.keynote.data, keynote_start=form.keynote_start.data, keynote_end=form.keynote_end.data, keynote_file=keynote_file,  comments=form.comments.data, comments_start=form.comments_start.data, comments_end=form.comments_end.data, comments_file=comments_file,  breaks=form.breaks.data, breaks_start=form.breaks_start.data, breaks_end=form.breaks_end.data, open_house=form.open_house.data, open_house_start=form.open_house_start.data, open_house_end=form.open_house_end.data)
         db.session.add(event)
         db.session.commit()
         return redirect(url_for('admin.index'))
@@ -130,6 +139,40 @@ def delete_menu(id):
      db.session.commit()
      return redirect(url_for('admin.menu'))
 
+
+
+@bp.route('/agenda', methods=['GET', 'POST'])
+@role_required('admin')
+def agenda():
+     agendas = Agenda.query.all()
+     form = AgendaForm()
+     if form.validate_on_submit():
+          newAgenda = Agenda(title=form.title.data, date=form.date.data)
+          db.session.add(newAgenda)
+          db.session.commit()
+          return redirect(url_for('admin.agenda'))
+
+     return render_template('admin/agenda.html', agendas=agendas, form=form)
+
+
+@bp.route('/edit_agenda/<int:id>', methods=['GET', 'POST'])
+def edit_agenda(id):
+     agenda = Agenda.query.get_or_404(id)
+     form = AgendaForm()
+     if form.validate_on_submit():
+          agenda.title = form.title.data
+          db.session.add(agenda)
+          db.session.commit()
+          return redirect(url_for('admin.agenda'))
+     form.title.data = agenda.title
+     return render_template('admin/edit_agenda.html', form=form)
+
+@bp.route('/delete_agenda/<int:id>', methods=['GET', 'POST'])
+def delete_agenda(id):
+     agenda = db.get_or_404(Agenda, id)
+     db.session.delete(agenda)
+     db.session.commit()
+     return redirect(url_for('admin.agenda'))
 
      
 

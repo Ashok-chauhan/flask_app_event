@@ -1,7 +1,20 @@
 from app.extensions import db
+from sqlalchemy.sql import func
+
+
+class Agenda(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    date = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+    def __reper__(self):
+        return f'<Agenda "{self.title}">'
+
 
 class Events(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    agenda_id= db.Column(db.Integer, index=True)
     date = db.Column(db.String(100))
     title = db.Column(db.String(255))
     speaker = db.Column(db.String(200))
