@@ -10,7 +10,7 @@ from app.admin.menuform import MenuForm, AgendaForm
 from app.admin.facultyform import FacultyForm
 from app.admin import bp
 from app.models.event import Events, Agenda, Venue
-from app.models.comments import Comments
+# from app.models.comments import Comments
 from app.models.menu import Menu, Faculty, Welcome
 from app.models.user import Users
 
@@ -61,7 +61,7 @@ def create_event():
         keynote_file = upload_file(form.keynote_file.data)
         comments_file = upload_file(form.comments_file.data)
         
-        event = Events(agenda_id=form.agenda_id.data, date=form.date.data, title=form.title.data, chairpersons=form.chairpersons.data,  speaker=form.speaker.data, speaker_start=form.speaker_start.data, speaker_end=form.speaker_end.data, speaker_file=speaker_file,  keynote=form.keynote.data, keynote_start=form.keynote_start.data, keynote_end=form.keynote_end.data, keynote_file=keynote_file,  comments=form.comments.data, comments_start=form.comments_start.data, comments_end=form.comments_end.data, comments_file=comments_file,  breaks=form.breaks.data, breaks_start=form.breaks_start.data, breaks_end=form.breaks_end.data, breaks2=form.breaks2.data, breaks2_start=form.breaks2_start.data, breaks2_end=form.breaks2_end.data, open_house=form.open_house.data, open_house_start=form.open_house_start.data, open_house_end=form.open_house_end.data)
+        event = Events(agenda_id=form.agenda_id.data, date=form.date.data, title=form.title.data, chairpersons=form.chairpersons.data, keynote_speaker=form.keynote_speaker.data, speaker=form.speaker.data, speaker_start=form.speaker_start.data, speaker_end=form.speaker_end.data, speaker_file=speaker_file,  keynote=form.keynote.data, keynote_start=form.keynote_start.data, keynote_end=form.keynote_end.data, keynote_file=keynote_file,  comments=form.comments.data, comments_start=form.comments_start.data, comments_end=form.comments_end.data, comments_file=comments_file,  breaks=form.breaks.data, breaks_start=form.breaks_start.data, breaks_end=form.breaks_end.data, breaks2=form.breaks2.data, breaks2_start=form.breaks2_start.data, breaks2_end=form.breaks2_end.data, open_house=form.open_house.data, open_house_start=form.open_house_start.data, open_house_end=form.open_house_end.data)
         db.session.add(event)
         db.session.commit()
         return redirect(url_for('admin.index'))
@@ -76,19 +76,20 @@ def create_event():
 def event(id):
      
      event = Events.query.get_or_404(id)
-     form = CommentForm()
-     user_id = current_user.get_id()
-     user = Users.query.get(user_id)
-     full_name = user.f_name + ' '+user.l_name
+     # form = CommentForm()
+     # user_id = current_user.get_id()
+     # user = Users.query.get(user_id)
+     # full_name = user.f_name + ' '+user.l_name
 
-     if form.validate_on_submit():
-          comment = Comments(content=form.content.data, user_name=full_name, events=event)
-          db.session.add(comment)
-          db.session.commit()
-          return redirect(url_for('admin.event', id=event.id))
+     # if form.validate_on_submit():
+     #      comment = Comments(content=form.content.data, user_name=full_name, events=event)
+     #      db.session.add(comment)
+     #      db.session.commit()
+     #      return redirect(url_for('admin.event', id=event.id))
           
-     return render_template('admin/event.html', event=event, form=form)
-
+     # return render_template('admin/event.html', event=event, form=form)
+     return render_template('admin/event.html', event=event)
+'''
 @bp.route('/modrate_comment/<int:id>', methods=['GET'])
 def modrate_comment(id):
      comment = Comments.query.get_or_404(id)
@@ -105,7 +106,7 @@ def delete_comment(id):
      db.session.delete(comment)
      db.session.commit()
      return redirect(url_for('admin.event', id=comment.events_id))
-
+'''
 
 @bp.route('/menu', methods=['GET', 'POST'])
 @role_required('admin')
@@ -183,10 +184,10 @@ def venue():
      venues = Venue.query.all()
      form = VenueForm()
      if form.validate_on_submit():
-          newVenue = Venue(content=form.content.data)
+          newVenue = Venue(title=form.title.data, content=form.content.data, map_link=form.map_link.data)
           db.session.add(newVenue)
           db.session.commit()
-          return redirect(url_for('admin.menu'))
+          return redirect(url_for('admin.venue'))
 
      return render_template('admin/venue.html', venues=venues, form=form)
 
@@ -195,11 +196,16 @@ def edit_venue(id):
      venue = Venue.query.get_or_404(id)
      form = VenueForm()
      if form.validate_on_submit():
+          venue.title = form.title.data
           venue.content = form.content.data
+          venue.map_link = form.map_link.data
+
           db.session.add(venue)
           db.session.commit()
           return redirect(url_for('admin.venue'))
+     form.title.data = venue.title
      form.content.data = venue.content
+     form.map_link.data = venue.map_link
      return render_template('admin/edit_venue.html', form=form)
 
 @bp.route('/delete_venue/<int:id>', methods=['GET', 'POST'])

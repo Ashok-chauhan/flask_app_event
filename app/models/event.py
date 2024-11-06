@@ -18,6 +18,7 @@ class Events(db.Model):
     date = db.Column(db.String(100))
     chairpersons = db.Column(db.String(255))
     title = db.Column(db.String(255))
+    keynote_speaker = db.Column(db.String(200))
     speaker = db.Column(db.String(200))
     speaker_start = db.Column(db.String(100))
     speaker_end = db.Column(db.String(100))
@@ -41,7 +42,7 @@ class Events(db.Model):
     open_house = db.Column(db.String(150))
     open_house_start = db.Column(db.String(100), nullable=True)
     open_house_end = db.Column(db.String(100), nullable=True)
-    comment = db.relationship('Comments', cascade="all,delete", backref='events')
+    # comment = db.relationship('Comments', cascade="all,delete", backref='events')
 
 
     def __reper__(self):
@@ -49,7 +50,9 @@ class Events(db.Model):
 
 class Venue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
     content = db.Column(db.Text)
+    map_link = db.Column(db.Text)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
     def __reper__(self):

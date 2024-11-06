@@ -3,7 +3,9 @@
   <div class="col-md-6">
     {% for venue in venues %}
     <div class="row">
-      <div class="col-md-8">#{{ venue.id}} {{ venue.content }}</div>
+      <div class="col-md-8"><strong> {{ venue.title }}</strong></div>
+      <div>{{venue.content}}</div>
+      <div>{{venue.map_link}}</div>
       <div class="col-md-2 p-2">
         <a
           class="btn btn-outline-secondary btn-sm"
@@ -32,8 +34,13 @@
         {{ form[field].label }}: {{ ', '.join(errors) }}
       </div>
       {% endfor %} {{ form.hidden_tag() }}
+
+      <div class="form-group mb-3">{{ form.title(class_="form-control") }}</div>
       <div class="form-group mb-3">
         {{ form.content(class_="form-control") }}
+      </div>
+      <div class="form-group mb-3">
+        {{ form.map_link(class_="form-control") }}
       </div>
 
       <div class="form-group mb-3">

@@ -10,7 +10,6 @@
 
     <div class="row">
       <div class="col-md-3">
-        
         <div>Speaker: {{ event.speaker }}</div>
         <div>Strart time: {{ event.speaker_start }}</div>
         <div>End time: {{ event.speaker_end }}</div>
@@ -36,35 +35,6 @@
         <div>End time: {{ event.breaks_end }}</div>
       </div>
     </div>
-
-    <hr />
-    <h3>Discussion</h3>
-
-    <form method="POST" action=""> 
-      <p>
-       
-
-        {{ form.hidden_tag() }}
-    <div class="form-group mb-3">{{ form.content(class_="form-control") }}</div>
-      </p>
-<input type="hidden" name="id" value="{{ event.id }}">
-      <p>
-        <!-- <button type="submit">Add comment</button> -->
-        <div class="form-group">{{ form.submit(class_="btn btn-primary") }}</div>
-      </p>
-    </form>
-
-    {% for comment in event.comment %}
-    <div class="row border-bottom mb-2">
-      <div class="col-md-8">#{{ comment.id }} {{ comment.content }}</div>
-      {% if comment.status == 1 %}
-      <div class="col-md-2 ">Active </div>
-      {% else %}
-      <div class="col-md-2 "><a class="btn btn-outline-secondary btn-sm"  href="{{ url_for('admin.modrate_comment', id=comment['id'])}}">Activate</a></div>
-      {% endif %}
-      <div class="col-md-2"><a class="btn btn-outline-danger btn-sm" href="{{ url_for('admin.delete_comment', id=comment['id'])}}">Delete</a></div>
-    </div>
-    {% endfor %}
   </div>
 </div>
 

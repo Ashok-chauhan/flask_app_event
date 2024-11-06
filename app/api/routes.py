@@ -5,7 +5,7 @@ from flask_login import login_user
 from app.api import bp
 from app.extensions import db
 from app.models.event import Events, Agenda, Venue
-from app.models.comments import Comments, Questions
+from app.models.comments import  Questions
 from app.models.user import Users
 from app.models.devices import Devices
 from app.models.menu import Faculty, Welcome, Menu
@@ -27,6 +27,7 @@ def index():
         event_dict['session_name'] = event.title
         event_dict['speaker'] = event.speaker
         event_dict['chairpersons'] = event.chairpersons
+        event_dict['keynote_speaker'] = event.keynote_speaker
         event_dict['speaker_start'] = event.speaker_start
         event_dict['speaker_end'] = event.speaker_end
         event_dict['speaker_file'] = str(request.url_root) +'static/images/'+ str(event.speaker_file) if event.speaker_file else None #event.speaker_file
@@ -53,13 +54,13 @@ def index():
         event_dict['open_house_start'] = event.open_house_start
         event_dict['open_house_end'] = event.open_house_end
        
-        comment_value=[]
-        for comment in event.comment:
-            comment_dict = {}
-            comment_dict['id'] = comment.id
-            comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
-            comment_value.append(comment_dict)
-            event_dict['comments'] = comment_value
+        # comment_value=[]
+        # for comment in event.comment:
+        #     comment_dict = {}
+        #     comment_dict['id'] = comment.id
+        #     comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
+        #     comment_value.append(comment_dict)
+        #     event_dict['comments'] = comment_value
       
         return_value.append(event_dict)
 
@@ -80,6 +81,7 @@ def events_by_date(event_date):
         event_dict['session_name'] = event.title
         event_dict['speaker'] = event.speaker
         event_dict['chairpersons'] = event.chairpersons
+        event_dict['keynote_speaker'] = event.keynote_speaker
         event_dict['speaker_start'] = event.speaker_start
         event_dict['speaker_end'] = event.speaker_end
         event_dict['speaker_file'] = str(request.url_root) +'static/images/'+ str(event.speaker_file) if event.speaker_file else None #event.speaker_file
@@ -105,15 +107,7 @@ def events_by_date(event_date):
         event_dict['open_house'] = event.open_house
         event_dict['open_house_start'] = event.open_house_start
         event_dict['open_house_end'] = event.open_house_end
-       
-        comment_value=[]
-        for comment in event.comment:
-            comment_dict = {}
-            comment_dict['id'] = comment.id
-            comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
-            comment_value.append(comment_dict)
-            event_dict['comments'] = comment_value
-      
+                     
         return_value.append(event_dict)
 
     return jsonify({'events': return_value})
@@ -133,6 +127,7 @@ def event_by_id(event_id):
         event_dict['session_name'] = event.title
         event_dict['speaker'] = event.speaker
         event_dict['chairpersons'] = event.chairpersons
+        event_dict['keynote_speaker'] = event.keynote_speaker
         event_dict['speaker_start'] = event.speaker_start
         event_dict['speaker_end'] = event.speaker_end
         event_dict['speaker_file'] = str(request.url_root) +'static/images/'+ str(event.speaker_file) if event.speaker_file else None #event.speaker_file
@@ -158,14 +153,7 @@ def event_by_id(event_id):
         event_dict['open_house_start'] = event.open_house_start
         event_dict['open_house_end'] = event.open_house_end
        
-        comment_value=[]
-        for comment in event.comment:
-            comment_dict = {}
-            comment_dict['id'] = comment.id
-            comment_dict['user'] = comment.user_name + ' at '+ str(comment.created_at)
-            comment_value.append(comment_dict)
-            event_dict['comments'] = comment_value
-      
+              
         return jsonify({'event': event_dict})
 
 
@@ -223,6 +211,7 @@ def login():
         return jsonify(result)
     
 
+'''
 @bp.route('/comments/<int:event_id>', methods=['GET'])
 def comments(event_id):
    
@@ -237,8 +226,9 @@ def comments(event_id):
             return_comment.append(cmt)
 
         return jsonify({'comments':return_comment})
+'''
     
-
+'''
 @bp.route('/comments', methods=['POST'])
 def post_comment():
     comment = request.json
@@ -261,6 +251,8 @@ def post_comment():
         result['error'] = 'Key Error'
         return jsonify(result)
     
+'''
+
 @bp.route('/checkphone', methods=['POST'])
 def checkphone():
     phone = request.json

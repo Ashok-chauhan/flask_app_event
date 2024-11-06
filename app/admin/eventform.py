@@ -36,6 +36,7 @@ class EventForm(FlaskForm):
     date = DateField()
     title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Session name"})
     chairpersons = StringField(render_kw={"placeholder":"Chairpersons"})
+    keynote_speaker = StringField(render_kw={"placeholder":"Keynote Speaker name"})
     speaker = StringField(render_kw={"placeholder":"Speaker name"})
     speaker_start = TimeField(validators=[optional()])
     speaker_end = TimeField(validators=[optional()])
@@ -79,7 +80,10 @@ class WelcomeForm(FlaskForm):
 
 
 class VenueForm(FlaskForm):
-    content = TextAreaField(validators=[InputRequired()], render_kw={"placeholder":"Venue"})
+    title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Venue title"})
+    content = TextAreaField( render_kw={"placeholder":"Venue"})
+    map_link = TextAreaField(render_kw={"placeholder":"Map link"})
+
     submit = SubmitField("Submit")
 
 
