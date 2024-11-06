@@ -26,6 +26,7 @@ def index():
         event_dict['date'] = event.date
         event_dict['session_name'] = event.title
         event_dict['speaker'] = event.speaker
+        event_dict['chairpersons'] = event.chairpersons
         event_dict['speaker_start'] = event.speaker_start
         event_dict['speaker_end'] = event.speaker_end
         event_dict['speaker_file'] = str(request.url_root) +'static/images/'+ str(event.speaker_file) if event.speaker_file else None #event.speaker_file
@@ -43,6 +44,11 @@ def index():
         event_dict['breaks'] = event.breaks
         event_dict['breaks_start'] = event.breaks_start
         event_dict['breaks_end'] = event.breaks_end
+
+        event_dict['breaks2'] = event.breaks2
+        event_dict['breaks2_start'] = event.breaks2_start
+        event_dict['breaks2_end'] = event.breaks2_end
+
         event_dict['open_house'] = event.open_house
         event_dict['open_house_start'] = event.open_house_start
         event_dict['open_house_end'] = event.open_house_end
@@ -73,6 +79,7 @@ def events_by_date(event_date):
         event_dict['date'] = event.date
         event_dict['session_name'] = event.title
         event_dict['speaker'] = event.speaker
+        event_dict['chairpersons'] = event.chairpersons
         event_dict['speaker_start'] = event.speaker_start
         event_dict['speaker_end'] = event.speaker_end
         event_dict['speaker_file'] = str(request.url_root) +'static/images/'+ str(event.speaker_file) if event.speaker_file else None #event.speaker_file
@@ -90,6 +97,10 @@ def events_by_date(event_date):
         event_dict['breaks'] = event.breaks
         event_dict['breaks_start'] = event.breaks_start
         event_dict['breaks_end'] = event.breaks_end
+
+        event_dict['breaks2'] = event.breaks2
+        event_dict['breaks2_start'] = event.breaks2_start
+        event_dict['breaks2_end'] = event.breaks2_end
 
         event_dict['open_house'] = event.open_house
         event_dict['open_house_start'] = event.open_house_start
@@ -121,6 +132,7 @@ def event_by_id(event_id):
         event_dict['date'] = event.date
         event_dict['session_name'] = event.title
         event_dict['speaker'] = event.speaker
+        event_dict['chairpersons'] = event.chairpersons
         event_dict['speaker_start'] = event.speaker_start
         event_dict['speaker_end'] = event.speaker_end
         event_dict['speaker_file'] = str(request.url_root) +'static/images/'+ str(event.speaker_file) if event.speaker_file else None #event.speaker_file
@@ -138,6 +150,10 @@ def event_by_id(event_id):
         event_dict['breaks'] = event.breaks
         event_dict['breaks_start'] = event.breaks_start
         event_dict['breaks_end'] = event.breaks_end
+        event_dict['breaks2'] = event.breaks2
+        event_dict['breaks2_start'] = event.breaks2_start
+        event_dict['breaks2_end'] = event.breaks2_end
+
         event_dict['open_house'] = event.open_house
         event_dict['open_house_start'] = event.open_house_start
         event_dict['open_house_end'] = event.open_house_end

@@ -10,6 +10,9 @@
 
     <div class="form-group mb-3">{{ form.date(class_="form-control") }}</div>
     <div class="form-group mb-3">{{ form.title(class_="form-control") }}</div>
+    <div class="form-group mb-3">
+      {{ form.chairpersons(class_="form-control") }}
+    </div>
     <div class="form-group mb-3">{{ form.speaker(class_="form-control") }}</div>
     <div class="form-group mb-3">
       <label for="speaker_start">Speaker start time</label>
@@ -62,6 +65,16 @@
     <div class="form-group mb-3">
       <label for="breaks_end">Break end time</label>
       {{ form.breaks_end(class_="form-control") }}
+    </div>
+
+    <div class="form-group mb-3">{{ form.breaks2(class_="form-control") }}</div>
+    <div class="form-group mb-3">
+      <label for="breaks_start">Break 2 start time</label>
+      {{ form.breaks2_start(class_="form-control") }}
+    </div>
+    <div class="form-group mb-3">
+      <label for="breaks_end">Break 2 end time</label>
+      {{ form.breaks2_end(class_="form-control") }}
     </div>
 
     <div class="form-group mb-3">

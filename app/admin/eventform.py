@@ -35,6 +35,7 @@ class EventForm(FlaskForm):
     agenda_id = SelectField(u'Choose an option', choices=[])
     date = DateField()
     title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Session name"})
+    chairpersons = StringField(render_kw={"placeholder":"Chairpersons"})
     speaker = StringField(render_kw={"placeholder":"Speaker name"})
     speaker_start = TimeField(validators=[optional()])
     speaker_end = TimeField(validators=[optional()])
@@ -52,6 +53,10 @@ class EventForm(FlaskForm):
     breaks = StringField(render_kw={"placeholder":"Break"})
     breaks_start = TimeField(validators=[optional()])
     breaks_end = TimeField(validators=[optional()])
+
+    breaks2 = StringField(render_kw={"placeholder":"Break 2"})
+    breaks2_start = TimeField(validators=[optional()])
+    breaks2_end = TimeField(validators=[optional()])
 
     open_house = StringField(render_kw={"placeholder":"Open house"})
     open_house_start = TimeField(validators=[optional()])
