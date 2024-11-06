@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import login_user
 from app.api import bp
 from app.extensions import db
-from app.models.event import Events
+from app.models.event import Events, Agenda
 from app.models.comments import Comments
 from app.models.user import Users
 from app.models.devices import Devices
@@ -16,6 +16,7 @@ from app.utility import generate_token, verify_token
 @bp.route('/events')
 def index():
     events = Events.query.all()
+    # events = Events.query.filter_by(agenda_id=1)
     return_value=[]
     
     for event in events:
@@ -169,7 +170,7 @@ def register():
                 try:
                     db.session.add(new_user)
                     db.session.commit()
-                    result['sucess'] = 'true'
+                    result['success'] = 'true'
                     return jsonify(result)
                 except IntegrityError:
                     result['error'] = 'phone already taken'
@@ -390,6 +391,20 @@ def device_token():
 
 
 
+@bp.route('/agenda', methods=['GET'])
+def agenda():
+    agendas = Agenda.query.all()
+    agenda_list = []
+    for agenda in agendas:
+        agendadict = {}
+        agendadict['id'] = agenda.id
+        agendadict['title'] = agenda.title
+        agendadict['date'] = agenda.date
+        agendadict['created_at'] = agenda.created_at
+
+        agenda_list.append(agendadict)
+
+    return jsonify( agenda_list)
 
 
 
