@@ -1,52 +1,251 @@
 {% extends 'base.html' %} {% block content %}
 <div class="d-flex justify-content-center">
-  <form method="POST" action="editevent">
-    <h1>Programme</h1>
-    {{ form.hidden_tag() }}
-    <label for="menu" class="form-label">Select Agenda</label>
-    <!-- 
+  <form method="POST" action="">
+    <h2>Edit Session</h2>
     <div class="form-group mb-3">
-      <input type="date" name="date" value="{{event.date}}" />
-    </div> -->
-    <div class="form-group mb-3">
-      <input type="text" name="title" value="" />
+      {% if agendas %}
+      <label for="menu" class="form-label">Select Agenda</label>
+      <select class="form-select" name="agenda_id" aria-label="agenda">
+        {% for agenda in agendas %}
+        <option value="{{agenda.id}}">{{agenda.title}}</option>
+        {% endfor %}
+      </select>
+      {% endif %}
     </div>
-    <!-- <div class="form-group mb-3">
-      <input type="text" name="chairpersons" value="{{event.chairpersons}}" />
-    </div>
-    <div class="form-group mb-3">
+    <div class="form-group">
       <input
+        class="form-control"
+        type="date"
+        name="date"
+        value="{{event.date}}"
+      />
+      <input type="hidden" name="id" value="{{event.id}}" />
+    </div>
+    <div class="form-group">
+      <label for="title" class="form-label">Session name</label>
+      <input
+        class="form-control"
+        type="text"
+        name="title"
+        value="{{event.title}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="chairpersons" class="form-label">Chairpersons</label>
+      <input
+        class="form-control"
+        type="text"
+        name="chairpersons"
+        value="{{event.chairpersons}}"
+      />
+    </div>
+    <div class="form-group">
+      <label for="keynote_speaker" class="form-label"
+        >Keynote speaker name</label
+      >
+      <input
+        class="form-control"
         type="text"
         name="keynote_speaker"
         value="{{event.keynote_speaker}}"
       />
     </div>
-    <div class="form-group mb-3">
-      <input type="text" name="speaker" value="{{event.speaker}}" />
-    </div>
-
-    <div class="form-group mb-3">
-      <input type="text" name="keynote" value="{{keynote}}" />
-    </div>
-
-    <div class="form-group mb-3">
-      <input type="text" name="comments" value="{{event.comments}}" />
-    </div>
-
-    <div class="form-group mb-3">
-      <input type="text" name="breaks" value="{{event.breaks}}" />
-    </div>
-
-    <div class="form-group mb-3">
-      <input type="text" name="breaks2" value="{{event.breaks2}}" />
-    </div>
-
-    <div class="form-group mb-3">
-      <input type="text" name="open_house" value="{{event.open_houls}}" />
-    </div> -->
 
     <div class="form-group">
-      <input type="button" class="btn btn-primary" value="Submit" />
+      <label for="speaker" class="form-label">Speaker name</label>
+      <input
+        class="form-control"
+        type="text"
+        name="speaker"
+        value="{{event.speaker}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="speaker_start" class="form-label">Speaker start time</label>
+      <input
+        class="form-control"
+        type="time"
+        name="speaker_start"
+        value="{{event.speaker_start}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="speaker_end" class="form-label">Speaker end time</label>
+      <input
+        class="form-control"
+        type="time"
+        name="speaker_end"
+        value="{{event.speaker_end}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="keynote" class="form-label">Keynote</label>
+      <input
+        class="form-control"
+        type="text"
+        name="keynote"
+        value="{{event.keynote}}"
+      />
+
+      <div class="form-group">
+        <label for="keynote_start" class="form-label">Keynote start time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="keynote_start"
+          value="{{event.keynote_start}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="keynote_end" class="form-label">Keynote end time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="keynote_end"
+          value="{{event.keynote_end}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="comments" class="form-label">Discussion</label>
+        <input
+          class="form-control"
+          type="text"
+          name="comments"
+          value="{{event.comments}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="comments_start" class="form-label"
+          >Discussion start time</label
+        >
+        <input
+          class="form-control"
+          type="time"
+          name="comments_start"
+          value="{{event.comments_start}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="comments_end" class="form-label">Discussion end time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="comments_end"
+          value="{{event.comments_end}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="breaks" class="form-label">Break</label>
+        <input
+          class="form-control"
+          type="text"
+          name="breaks"
+          value="{{event.breaks}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="breaks_start" class="form-label">Breaks start time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="breaks_start"
+          value="{{event.breaks_start}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="breaks_end" class="form-label">Break end time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="breaks_end"
+          value="{{event.breaks_end}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="breaks2" class="form-label">Break 2</label>
+        <input
+          class="form-control"
+          type="text"
+          name="breaks2"
+          value="{{event.breaks2}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="breaks2_start" class="form-label">Break 2 start time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="breaks2_start"
+          value="{{event.breaks2_start}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="breaks2_end" class="form-label">Break 2 end time</label>
+        <input
+          class="form-control"
+          type="time"
+          name="breaks2_end"
+          value="{{event.breaks2_end}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="open_house" class="form-label">Openhouse</label>
+        <input
+          class="form-control"
+          type="text"
+          name="open_house"
+          value="{{event.open_house}}"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="open_house_start" class="form-label"
+          >Openhouse start time</label
+        >
+        <input
+          class="form-control"
+          type="time"
+          name="open_house_start"
+          value="{{event.open_house_start}}"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="open_house_end" class="form-label"
+          >Openhouse end time</label
+        >
+        <input
+          class="form-control"
+          type="time"
+          name="open_house_end"
+          value="{{event.open_house_end}}"
+        />
+      </div>
+
+      <div class="form-group mb-5">
+        <input
+          class="btn btn-primary"
+          id="submit"
+          name="submit"
+          type="submit"
+          value="Edit session"
+        />
+      </div>
     </div>
   </form>
 </div>

@@ -74,61 +74,45 @@ def create_event():
 @bp.route('/event/<int:id>', methods=['GET', 'POST'])
 @role_required('admin')
 def event(id):
-     
      event = Events.query.get_or_404(id)
-     # form = CommentForm()
-     # user_id = current_user.get_id()
-     # user = Users.query.get(user_id)
-     # full_name = user.f_name + ' '+user.l_name
-
-     # if form.validate_on_submit():
-     #      comment = Comments(content=form.content.data, user_name=full_name, events=event)
-     #      db.session.add(comment)
-     #      db.session.commit()
-     #      return redirect(url_for('admin.event', id=event.id))
-          
-     # return render_template('admin/event.html', event=event, form=form)
      return render_template('admin/event.html', event=event)
 
 
+
+@bp.route('/editevent/<int:id>', methods=['GET', 'POST'])
+@role_required('admin')
+def editevent(id):
      event = Events.query.get_or_404(id)
-     form = EventForm()
-     if form.validate_on_submit():
-          pass
-
-     form.agenda_id.data = event.agenda_id
-     dt = event.date
-     print(dt)
-     form.date.data = str(dt) #.strftime("%Y-%m-%d") #'2024-11-14' #event.date
-     form.chairpersons.data = event.chairpersons
-     form.title.data = event.title
-     form.keynote_speaker.data = event.keynote_speaker 
-     form.speaker.data = event.speaker
-     # form.speaker_start.data = '09:02 PM' #event.speaker_start
-     # form.speaker_end.data = '09:02 PM' #event.speaker_end
-     form.keynote.data = event.keynote
-     # form.keynote_start.data = '09:02 PM' #event.keynote_start
-     # form.keynote_end.data = '09:02 PM' #event.keynote_end
-     form.comments.data = event.comments
-     # form.comments_start.data = '09:02 PM' #event.comments_start
-     # form.comments_end.data = '09:02 PM' #event.comments_end
-     form.breaks.data = event.breaks
-     # form.breaks_start.data = '09:02 PM' #event.breaks_start
-     # form.breaks_end.data = '09:02 PM' #event.breaks_end
-     form.breaks2.data = event.breaks2
-     # form.breaks2_start.data = '09:02 PM' #event.breaks2_start
-     # form.breaks2_end.data = '09:02 PM' #event.breaks2_end
-     form.open_house.data = event.open_house
-     # form.open_house_start.data = '09:02 PM' #event.open_house_start
-     # form.open_house_end.data = '09:02 PM' #event.open_house_end
-     return render_template('admin/event_edit.html', form=form)
-
-
-# @bp.route('/editevent/<int:id>', methods=['GET', 'POST'])
-# @role_required('admin')
-# def editevent(id):
-#      event = Events.query.get_or_404(id)
-#      return render_template('admin/edit_event.html', event= event)
+     agendas = Agenda.query.all()
+     if request.method == 'POST':
+          
+          event.agenda_id = request.form['agenda_id']
+          event.date = request.form['date']
+          event.title = request.form['title']
+          event.chairpersons = request.form['chairpersons']
+          event.speaker = request.form['speaker']
+          event.keynote_speaker = request.form['keynote_speaker']
+          event.speaker_start = request.form['speaker_start']
+          event.speaker_end = request.form['speaker_end']
+          event.keynote = request.form['keynote']
+          event.keynote_start = request.form['keynote_start']
+          event.keynote_end = request.form['keynote_end']
+          event.comments = request.form['comments']
+          event.comments_start = request.form['comments_start']
+          event.comments_end = request.form['comments_end']
+          event.breaks = request.form['breaks']
+          event.breaks_start = request.form['breaks_start']
+          event.breaks_end = request.form['breaks_end']
+          event.breaks2 = request.form['breaks2']
+          event.breaks2_start = request.form['breaks2_start']
+          event.breaks2_end = request.form['breaks2_end']
+          event.open_house = request.form['open_house']
+          event.open_house_start = request.form['open_house_start']
+          event.open_house_end = request.form['open_house_end']
+          db.session.commit()
+          return redirect(url_for('admin.index'))
+     
+     return render_template('admin/edit_event.html', event= event, agendas=agendas)
 
     
 
