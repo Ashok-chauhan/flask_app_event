@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block content %}
+<div class="d-flex justify-content-center">
+  <form method="POST" action="editevent">
+    <h1>Programme</h1>
+    {{ form.hidden_tag() }}
+    <label for="menu" class="form-label">Select Agenda</label>
+    <!-- 
+    <div class="form-group mb-3">
+      <input type="date" name="date" value="{{event.date}}" />
+    </div> -->
+    <div class="form-group mb-3">
+      <input type="text" name="title" value="" />
+    </div>
+    <!-- <div class="form-group mb-3">
+      <input type="text" name="chairpersons" value="{{event.chairpersons}}" />
+    </div>
+    <div class="form-group mb-3">
+      <input
+        type="text"
+        name="keynote_speaker"
+        value="{{event.keynote_speaker}}"
+      />
+    </div>
+    <div class="form-group mb-3">
+      <input type="text" name="speaker" value="{{event.speaker}}" />
+    </div>
+
+    <div class="form-group mb-3">
+      <input type="text" name="keynote" value="{{keynote}}" />
+    </div>
+
+    <div class="form-group mb-3">
+      <input type="text" name="comments" value="{{event.comments}}" />
+    </div>
+
+    <div class="form-group mb-3">
+      <input type="text" name="breaks" value="{{event.breaks}}" />
+    </div>
+
+    <div class="form-group mb-3">
+      <input type="text" name="breaks2" value="{{event.breaks2}}" />
+    </div>
+
+    <div class="form-group mb-3">
+      <input type="text" name="open_house" value="{{event.open_houls}}" />
+    </div> -->
+
+    <div class="form-group">
+      <input type="button" class="btn btn-primary" value="Submit" />
+    </div>
+  </form>
+</div>
+{% endblock %}

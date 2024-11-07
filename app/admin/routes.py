@@ -89,6 +89,49 @@ def event(id):
           
      # return render_template('admin/event.html', event=event, form=form)
      return render_template('admin/event.html', event=event)
+
+
+     event = Events.query.get_or_404(id)
+     form = EventForm()
+     if form.validate_on_submit():
+          pass
+
+     form.agenda_id.data = event.agenda_id
+     dt = event.date
+     print(dt)
+     form.date.data = str(dt) #.strftime("%Y-%m-%d") #'2024-11-14' #event.date
+     form.chairpersons.data = event.chairpersons
+     form.title.data = event.title
+     form.keynote_speaker.data = event.keynote_speaker 
+     form.speaker.data = event.speaker
+     # form.speaker_start.data = '09:02 PM' #event.speaker_start
+     # form.speaker_end.data = '09:02 PM' #event.speaker_end
+     form.keynote.data = event.keynote
+     # form.keynote_start.data = '09:02 PM' #event.keynote_start
+     # form.keynote_end.data = '09:02 PM' #event.keynote_end
+     form.comments.data = event.comments
+     # form.comments_start.data = '09:02 PM' #event.comments_start
+     # form.comments_end.data = '09:02 PM' #event.comments_end
+     form.breaks.data = event.breaks
+     # form.breaks_start.data = '09:02 PM' #event.breaks_start
+     # form.breaks_end.data = '09:02 PM' #event.breaks_end
+     form.breaks2.data = event.breaks2
+     # form.breaks2_start.data = '09:02 PM' #event.breaks2_start
+     # form.breaks2_end.data = '09:02 PM' #event.breaks2_end
+     form.open_house.data = event.open_house
+     # form.open_house_start.data = '09:02 PM' #event.open_house_start
+     # form.open_house_end.data = '09:02 PM' #event.open_house_end
+     return render_template('admin/event_edit.html', form=form)
+
+
+# @bp.route('/editevent/<int:id>', methods=['GET', 'POST'])
+# @role_required('admin')
+# def editevent(id):
+#      event = Events.query.get_or_404(id)
+#      return render_template('admin/edit_event.html', event= event)
+
+    
+
 '''
 @bp.route('/modrate_comment/<int:id>', methods=['GET'])
 def modrate_comment(id):

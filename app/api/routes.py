@@ -349,7 +349,7 @@ def welcome():
         wel['caption'] = welcome.caption
         welcome_lsit.append(wel)
 
-        return jsonify( welcome_lsit)
+    return jsonify( welcome_lsit)
 
 
 @bp.route('/menu', methods=['GET'])
