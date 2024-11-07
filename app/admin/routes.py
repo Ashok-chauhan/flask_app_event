@@ -184,7 +184,7 @@ def venue():
      venues = Venue.query.all()
      form = VenueForm()
      if form.validate_on_submit():
-          newVenue = Venue(title=form.title.data, content=form.content.data, map_link=form.map_link.data)
+          newVenue = Venue(title=form.title.data, address=form.address.data, content=form.content.data, map_link=form.map_link.data)
           db.session.add(newVenue)
           db.session.commit()
           return redirect(url_for('admin.venue'))
@@ -197,6 +197,7 @@ def edit_venue(id):
      form = VenueForm()
      if form.validate_on_submit():
           venue.title = form.title.data
+          venue.address = form.address.data
           venue.content = form.content.data
           venue.map_link = form.map_link.data
 
@@ -204,6 +205,7 @@ def edit_venue(id):
           db.session.commit()
           return redirect(url_for('admin.venue'))
      form.title.data = venue.title
+     form.address.data = venue.address
      form.content.data = venue.content
      form.map_link.data = venue.map_link
      return render_template('admin/edit_venue.html', form=form)

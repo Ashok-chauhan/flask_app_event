@@ -81,6 +81,7 @@ class WelcomeForm(FlaskForm):
 
 class VenueForm(FlaskForm):
     title = StringField(validators=[InputRequired()], render_kw={"placeholder":"Venue title"})
+    address = StringField(validators=[InputRequired()], render_kw={"placeholder":"Address"})
     content = TextAreaField( render_kw={"placeholder":"Venue"})
     map_link = TextAreaField(render_kw={"placeholder":"Map link"})
 
