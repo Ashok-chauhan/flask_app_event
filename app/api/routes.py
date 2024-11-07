@@ -435,7 +435,9 @@ def venue():
     for venue in venues:
         venuedict= {}
         venuedict['id'] = venue.id
+        venuedict['title'] = venue.title
         venuedict['content'] = venue.content
+        venuedict['map_link'] = venue.map_link
         venuedict['created_at'] = venue.created_at
 
         venue_list.append(venuedict)
