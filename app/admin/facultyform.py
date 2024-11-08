@@ -13,7 +13,7 @@ class FacultyForm(FlaskForm):
     content = TextAreaField(validators=[InputRequired()], render_kw={"placeholder":"Discussion"})
     picture = FileField('picture')
     menu = SelectField(u'Choose an option', choices=[])
-    faculty_type = SelectField(u'Choose an option', choices=[('director', 'Course Dirctor'), ('us_faculty', 'North Americal Faculty'), ('faculty', 'Faculty')])
+    faculty_type = SelectField(u'Choose an option', choices=[('director', 'Course Dirctor'), ('us_faculty', 'North American Faculty'), ('faculty', 'Faculty')])
     # menu = SelectField(choices=[(context, context) for context in menus], id=menus)
     submit = SubmitField('Create gurest')
 

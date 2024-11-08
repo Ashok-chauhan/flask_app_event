@@ -299,9 +299,9 @@ def faculties():
         faculty_list.append(faculty_dict)
 
     response.append({'directors':director_list})
-    response.append({'north americal faculty':us_faculty_list})
+    response.append({'north american faculty':us_faculty_list})
     response.append({'faculty':faculty_list})
-    # return jsonify({'directors':director_list}, {'north americal faculty':us_faculty_list}, {'faculty':faculty_list})
+   
     return jsonify({'response':response})
 
 @bp.route('/forgot-password', methods=['POST'])
