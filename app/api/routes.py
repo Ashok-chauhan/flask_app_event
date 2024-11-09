@@ -3,14 +3,26 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user
 from datetime import datetime
+import pytz
+
 from app.api import bp
 from app.extensions import db
 from app.models.event import Events, Agenda, Venue
-from app.models.comments import  Questions
+from app.models.comments import  Questions, Polltime
 from app.models.user import Users
 from app.models.devices import Devices
 from app.models.menu import Faculty, Welcome, Menu
 from app.utility import generate_token, verify_token
+
+
+def convert_utc_to_ist(utc_time):
+    """Convert a UTC datetime to IST."""
+    utc_zone = pytz.utc
+    ist_zone = pytz.timezone('Asia/Kolkata')
+    utc_time = utc_zone.localize(utc_time)  # Make timezone-aware
+    ist_time = utc_time.astimezone(ist_zone)
+    return ist_time
+
 
 
 
@@ -471,7 +483,8 @@ def myquestions(user_id):
         q_list= []
         for question in questions:
             q_dict = {}
-            formatted_time = question.created_at.strftime("%I:%M:%S %p on %a, %d %b %Y")
+            ist_time = convert_utc_to_ist(question.created_at)
+            formatted_time = ist_time.strftime("%I:%M:%S %p on %a, %d %b %Y")
             q_dict['id'] = question.id
             q_dict['content'] = question.content
             q_dict['user_name'] = question.user_name
@@ -497,7 +510,8 @@ def allquestions():
             # Convert the string to a datetime object
             # dt =datetime.strptime(question.created_at, "%Y-%m-%d %H:%M:%S")
             # Format it to 12-hour format with AM/PM
-            formatted_time = question.created_at.strftime("%I:%M:%S %p on %a, %d %b %Y")
+            ist_time = convert_utc_to_ist(question.created_at)
+            formatted_time = ist_time.strftime("%I:%M:%S %p on %a, %d %b %Y")
             q_dict['id'] = question.id
             q_dict['content'] = question.content
             q_dict['user_name'] = question.user_name
@@ -520,6 +534,18 @@ def delete_question():
      else:
          return jsonify({'error':'false'})
     
+@bp.route('/get_poll')
+def get_poll():
+    polls = Polltime.query.all()
+    poll_list = []
+    if polls:
+        for poll in polls:
+            polldict ={}
+            polldict['poll_time'] = poll.poll_time
+            poll_list.append(polldict)
+        return jsonify(poll_list)
+            
+
     
     
 

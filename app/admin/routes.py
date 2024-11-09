@@ -5,12 +5,12 @@ from datetime import datetime
 # from wergzeug.exceptions import RequestEntityTooLarge
 import os
 from app.admin.eventform import EventForm, WelcomeForm, VenueForm
-from app.admin.commentform import CommentForm
-from app.admin.menuform import MenuForm, AgendaForm
+# from app.admin.commentform import CommentForm
+from app.admin.menuform import MenuForm, AgendaForm, PollForm
 from app.admin.facultyform import FacultyForm
 from app.admin import bp
 from app.models.event import Events, Agenda, Venue
-# from app.models.comments import Comments
+from app.models.comments import Polltime
 from app.models.menu import Menu, Faculty, Welcome
 from app.models.user import Users
 
@@ -298,9 +298,36 @@ def delete_welcome(id):
      return redirect(url_for('admin.welcome'))
 
 
+@bp.route('/poll', methods=['GET', 'POST'])
+@role_required('admin')
+def poll():
+     polls = Polltime.query.all()
+     form = PollForm()
+     if polls:
+          return render_template('admin/polling.html', polls=polls, form=form)
+
+     if form.validate_on_submit():
+          new_poll = Polltime(poll_time=form.poll_time.data)
+          db.session.add(new_poll)
+          db.session.commit()
+          return redirect(url_for('admin.poll'))
+
+     return render_template('admin/polling.html', polls=polls, form=form)
+
+@bp.route('/edit_poll/<int:id>', methods=['GET', 'POST'])
+def edit_poll(id):
+     poll = Polltime.query.get_or_404(id)
+     form = PollForm()
+     if form.validate_on_submit():
+          poll.poll_time = int(form.poll_time.data)
+          db.session.add(poll)
+          db.session.commit()
+          return redirect(url_for('admin.poll'))
+     form.poll_time.data = poll.poll_time
+     return render_template('admin/edit_poll.html', form=form)
 
 
-
+############################################
 @bp.route('/upload', methods=['POST'])
 def upload():
      # form = UploadForm()

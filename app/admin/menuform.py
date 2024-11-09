@@ -11,4 +11,9 @@ class AgendaForm(FlaskForm):
     title = StringField(validators=[InputRequired()], render_kw={"placeholder ":"title"})
     date = DateField()
     submit = SubmitField('Submit')
+
+
+class PollForm(FlaskForm):
+    poll_time = StringField(validators=[InputRequired()], render_kw={"placeholder":"Polling time in seconds"})
+    submit = SubmitField("Set polling time in seconds")
     

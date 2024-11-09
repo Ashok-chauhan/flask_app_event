@@ -28,3 +28,14 @@ class Questions(db.Model):
 
     def __repr__(self):
         return f'<Comments "{self.content[:20]}...">'
+
+
+class Polltime(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    poll_time = db.Column(db.Integer, nullable=False, default=30)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+
+
+    def __repr__(self):
+        return f'<Comments "{self.content[:20]}...">'
