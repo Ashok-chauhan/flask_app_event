@@ -2,6 +2,7 @@ from flask import jsonify, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user
+from datetime import datetime
 from app.api import bp
 from app.extensions import db
 from app.models.event import Events, Agenda, Venue
@@ -470,10 +471,11 @@ def myquestions(user_id):
         q_list= []
         for question in questions:
             q_dict = {}
+            formatted_time = question.created_at.strftime("%I:%M:%S %p on %a, %d %b %Y")
             q_dict['id'] = question.id
             q_dict['content'] = question.content
             q_dict['user_name'] = question.user_name
-            q_dict['created_at'] = question.created_at
+            q_dict['created_at'] = formatted_time
             q_list.append(q_dict)
 
         return jsonify({'questions': q_list})
@@ -492,13 +494,31 @@ def allquestions():
         q_list= []
         for question in questions:
             q_dict = {}
+            # Convert the string to a datetime object
+            # dt =datetime.strptime(question.created_at, "%Y-%m-%d %H:%M:%S")
+            # Format it to 12-hour format with AM/PM
+            formatted_time = question.created_at.strftime("%I:%M:%S %p on %a, %d %b %Y")
             q_dict['id'] = question.id
             q_dict['content'] = question.content
             q_dict['user_name'] = question.user_name
-            q_dict['created_at'] = question.created_at
+            q_dict['created_at'] = formatted_time
             q_list.append(q_dict)
 
         return jsonify({'questions': q_list})
+
+
+
+@bp.route('/delete_question', methods=['POST'])
+def delete_question():
+     qid = request.get_json()
+     id = qid.get('question_id')
+     question = Questions.query.get(id)
+     if question:
+        db.session.delete(question)
+        db.session.commit()
+        return jsonify({'success': 'true'})
+     else:
+         return jsonify({'error':'false'})
     
     
     
