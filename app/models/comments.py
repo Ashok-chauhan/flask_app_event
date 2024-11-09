@@ -38,4 +38,4 @@ class Polltime(db.Model):
 
 
     def __repr__(self):
-        return f'<Comments "{self.content[:20]}...">'
+        return f'<Comments "{self.poll_time}...">'
