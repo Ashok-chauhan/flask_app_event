@@ -313,7 +313,7 @@ def faculties():
 
     response.append({'directors':director_list})
     response.append({'north american faculty':us_faculty_list})
-    response.append({'faculty':faculty_list})
+    response.append({'National faculty':faculty_list})
    
     return jsonify({'response':response})
 
