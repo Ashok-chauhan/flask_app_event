@@ -1,44 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row">
   <div class="col-md-6">
-    {% for well in welcome %}
-    <div class="row">
-      <div><h1>#{{ well.id}} {{ well.title }}</h1></div>
-      <div>{{ well.content }}</div>
-
-      {% if well.picture%}
-      <picture
-        ><img
-          src="{{url_for('static', filename='images/'+well.picture)}}"
-          class="img-thumbnail"
-      /></picture>
-      {% endif %}
-      <h5>{{ well.picture_title }}</h5>
-      <p>{{ well.caption }}</p>
-
-      <div class="col-md-2 p-2">
-        <a
-          class="btn btn-outline-danger btn-sm"
-          href="{{ url_for('admin.delete_welcome', id=well['id']) }}"
-          >Delete</a
-        >
-      </div>
-
-      <div class="col-md-2 p-2">
-        <a
-          class="btn btn-outline-secondary btn-sm"
-          href="{{ url_for('admin.edit_welcome', id=well['id']) }}"
-          >Edit</a
-        >
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
-  <div class="col-md-6">
     <!-- <div class="d-flex justify-content-center"> -->
-    <form method="POST" action="welcome">
-      <h1>Create Welcome message</h1>
+    <form method="POST" action="">
+      <h1>Edit Welcome message</h1>
 
       {% for field, errors in form.errors.items() %}
       <div class="alert alert-danger">

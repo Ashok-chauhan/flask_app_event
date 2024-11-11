@@ -245,6 +245,47 @@ def delete_venue(id):
      return redirect(url_for('admin.venue'))
 
 
+@bp.route('/edit_faculty/<int:id>', methods=['GET', 'POST'])
+def edit_faculty(id):
+    faculty = Faculty.query.get_or_404(id)
+    form = FacultyForm()
+
+    # Populate the choices for the menu field
+    options = Menu.query.all()
+    optionList = [(option.id, option.title) for option in options]
+    form.menu.choices = optionList
+
+    # Set the selected option for the menu field based on faculty.menu_id
+    if request.method == 'GET':
+        form.menu.data = str(faculty.menu_id)
+        form.title.data = faculty.title
+        form.content.data = faculty.content
+        form.picture.data = faculty.picture
+        form.faculty_type.data = faculty.faculty_type
+
+    # Update faculty if form is submitted and validated
+    if form.validate_on_submit():
+        faculty.title = form.title.data
+        faculty.content = form.content.data
+        faculty.picture = form.picture.data
+        faculty.menu_id = form.menu.data
+        faculty.faculty_type = form.faculty_type.data
+        db.session.commit()
+        return redirect(url_for('admin.faculties'))
+
+    return render_template('admin/edit_faculty.html', form=form)
+
+
+@bp.route('/delete_faculty/<int:id>', methods=['GET', 'POST'])
+def delete_faculty(id):
+     faculty = db.get_or_404(Faculty, id)
+     db.session.delete(faculty)
+     db.session.commit()
+     return redirect(url_for('admin.faculties'))
+
+
+
+
      
 
 
@@ -288,6 +329,29 @@ def welcome():
           db.session.commit()
           return redirect(url_for('admin.welcome'))
      return render_template('admin/welcome.html', welcome=welcome, form=form)
+
+
+@bp.route('/edit_welcom/<int:id>', methods=['GET', 'POST'])
+def edit_welcome(id):
+     welcome = Welcome.query.get(id)
+     form = WelcomeForm()
+     if form.validate_on_submit():
+          welcome.title = form.title.data
+          welcome.content = form.content.data
+          welcome.picture = form.picture.data
+          welcome.picture_title = form.picture_title.data
+          welcome.caption = form.caption.data
+          db.session.commit()
+          return redirect(url_for('admin.welcome'))
+     
+     form.title.data = welcome.title
+     form.content.data = welcome.content
+     form.picture.data = welcome.picture
+     form.picture_title.data = welcome.picture_title
+     form.caption.data = welcome.caption
+     return render_template('admin/edit_welcome.html', form=form)
+
+
 
 @bp.route('/delete_welcome/<int:id>', methods=['GET', 'POST'])
 @role_required('admin')

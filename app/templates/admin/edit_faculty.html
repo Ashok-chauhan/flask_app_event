@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<div class="d-flex justify-content-center">
+  <form method="POST" action="" enctype="multipart/form-data">
+    <h1>Edit Faculty</h1>
+    {{ form.hidden_tag() }}
+    <div class="form-group mb-3">{{ form.title(class_="form-control") }}</div>
+    <div class="form-group mb-3">{{ form.content(class_="form-control") }}</div>
+    <label for="menu" class="form-label">Select menu</label>
+    <div class="form-group mb-3">{{ form.menu(class_="form-select") }}</div>
+    <label for="faculty_type" class="form-label">Select faculty type</label>
+    <div class="form-group mb-3">
+      {{ form.faculty_type(class_="form-select") }}
+    </div>
+    <label for="picture" class="form-label">Faculty image</label>
+    <div class="form-group mb-3">{{ form.picture(class_="form-control") }}</div>
+
+    <div class="form-group">{{ form.submit(class_="btn btn-primary") }}</div>
+  </form>
+</div>
+{% endblock %}

@@ -13,6 +13,22 @@
 /></picture>
 {% endif %}
 <div><p>{{faculty.content}}</p></div>
+
+<div class="col-md-2 p-2">
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    href="{{ url_for('admin.edit_faculty', id=faculty['id']) }}"
+    >Edit</a
+  >
+</div>
+<div class="col-md-2 p-2">
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    href="{{ url_for('admin.delete_faculty', id=faculty['id']) }}"
+    >Delete</a
+  >
+</div>
+
 {% endif %} {% if faculty.faculty_type == 'us_faculty' %}
 
 <div class="text-secondary">North American Faculty</div>
@@ -26,6 +42,21 @@
 {% endif %}
 <div><p>{{faculty.content}}</p></div>
 
+<div class="col-md-2 p-2">
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    href="{{ url_for('admin.edit_faculty', id=faculty['id']) }}"
+    >Edit</a
+  >
+</div>
+<div class="col-md-2 p-2">
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    href="{{ url_for('admin.delete_faculty', id=faculty['id']) }}"
+    >Delete</a
+  >
+</div>
+
 {% endif %} {% if faculty.faculty_type == 'faculty' %}
 <div class="text-secondary">Faculty</div>
 <div><strong>{{faculty.title}}</strong></div>
@@ -35,6 +66,23 @@
     src="{{url_for('static', filename='images/'+faculty.picture)}}"
     class="img-thumbnail"
 /></picture>
+
 {% endif %}
 <div><p>{{faculty.content}}</p></div>
+
+<div class="col-md-2 p-2">
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    href="{{ url_for('admin.edit_faculty', id=faculty['id']) }}"
+    >Edit</a
+  >
+</div>
+<div class="col-md-2 p-2">
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    href="{{ url_for('admin.delete_faculty', id=faculty['id']) }}"
+    >Delete</a
+  >
+</div>
+
 {% endif %} {% endfor %} {% endif %} {% endblock %}
