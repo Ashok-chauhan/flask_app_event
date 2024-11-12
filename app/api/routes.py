@@ -311,7 +311,7 @@ def faculties():
         faculty_dict['picture'] = str(request.url_root) +'static/images/'+ str(fac.picture) if fac.picture else None
         faculty_list.append(faculty_dict)
 
-    response.append({'directors':director_list})
+    response.append({'Course directors':director_list})
     response.append({'north american faculty':us_faculty_list})
     response.append({'National faculty':faculty_list})
    
