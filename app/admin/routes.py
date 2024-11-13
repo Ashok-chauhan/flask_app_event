@@ -10,7 +10,7 @@ from app.admin.menuform import MenuForm, AgendaForm, PollForm
 from app.admin.facultyform import FacultyForm
 from app.admin import bp
 from app.models.event import Events, Agenda, Venue
-from app.models.comments import Polltime
+from app.models.comments import Polltime, Questions
 from app.models.menu import Menu, Faculty, Welcome
 from app.models.user import Users
 
@@ -393,6 +393,23 @@ def edit_poll(id):
           return redirect(url_for('admin.poll'))
      form.poll_time.data = poll.poll_time
      return render_template('admin/edit_poll.html', form=form)
+
+
+@bp.route('/questions', methods=['GET'])
+@role_required('admin')
+def questions():
+     questions = Questions.query.all()
+     return render_template('admin/questions.html', questions=questions)
+
+
+@bp.route('/users', methods=['GET'])
+@role_required('admin')
+def users():
+     users = Users.query.filter_by(role='user')
+     return render_template('admin/users.html', users=users)
+     
+
+
 
 
 ############################################

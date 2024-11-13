@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+  <div>
+    {% if users %} {% for user in users %}
+    <div class="row">
+      <div class="col-md-1">#{{ user.id}}</div>
+      <div class="col-md-6">{{ user.f_name }} {{user.l_name}}</div>
+      <div class="col-md-3">{{ user.pone }}</div>
+      <div class="col-md-2">
+        {{user.created_at.strftime('%d/%m/%y %I:%M:%S %p')}}
+      </div>
+    </div>
+    <hr />
+    {% endfor %} {% endif %}
+  </div>
+</div>
+{% endblock %}
