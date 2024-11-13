@@ -267,7 +267,9 @@ def edit_faculty(id):
     if form.validate_on_submit():
         faculty.title = form.title.data
         faculty.content = form.content.data
-        faculty.picture = form.picture.data
+        if form.picture.data:
+          faculty.picture = upload_file(form.picture.data)
+
         faculty.menu_id = form.menu.data
         faculty.faculty_type = form.faculty_type.data
         db.session.commit()
@@ -338,7 +340,9 @@ def edit_welcome(id):
      if form.validate_on_submit():
           welcome.title = form.title.data
           welcome.content = form.content.data
-          welcome.picture = form.picture.data
+          if form.picture.data:
+               welcome.picture = upload_file(form.picture.data)
+          
           welcome.picture_title = form.picture_title.data
           welcome.caption = form.caption.data
           db.session.commit()
