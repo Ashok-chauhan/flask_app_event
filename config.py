@@ -5,7 +5,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'ashok975'
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABSE_URI')\
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABSE_URI')\
-    or 'mysql+pymysql://flask:FlaskApp_9@localhost/events'
+    or 'mysql+pymysql://webUser9:webUser9@localhost/events'
     # or 'mysql+pymysql://root:@localhost/eventsx'
     #or 'sqlite:///'+ os.path.join(basedir, 'app.db')
     # UPLOAD_DIRECTORY = 'uploads/'
